@@ -1,0 +1,231 @@
+{
+  "name": "comment-lens",
+  "displayName": "comment-lens",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.103.2"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "comment-lens.insertDivider.quickPick",
+        "title": "Insert Divider",
+        "category": "Comment Lens"
+      },
+      {
+        "command": "comment-lens.insertCommentBox.quickPick",
+        "title": "Insert Comment Box",
+        "category": "Comment Lens"
+      },
+      {
+        "command": "comment-lens.generateDocumentation.fromFile",
+        "title": "Generate Documentation from File",
+        "category": "Comment Lens"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "comment-lens.insertDivider.quickPick",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "comment-lens.insertCommentBox.quickPick",
+        "key": "ctrl+shift+b",
+        "mac": "cmd+shift+b",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "comment-lens.generateDocumentation.fromFile",
+        "key": "ctrl+shift+m",
+        "mac": "cmd+shift+m",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Comment Lens",
+      "properties": {
+        "commentLens.patterns": {
+          "type": "array",
+          "description": "Custom comment patterns for highlighting",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the pattern"
+              },
+              "name": {
+                "type": "string",
+                "description": "Display name for the pattern"
+              },
+              "pattern": {
+                "type": "string",
+                "description": "Text pattern to match in comments"
+              },
+              "textColor": {
+                "type": "string",
+                "description": "Color for the text highlighting"
+              },
+              "backgroundColor": {
+                "type": "string",
+                "description": "Color for the background highlighting"
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Whether this pattern is enabled"
+              },
+              "showTextColor": {
+                "type": "boolean",
+                "description": "Whether to show text color highlighting"
+              },
+              "showBackgroundColor": {
+                "type": "boolean",
+                "description": "Whether to show background color highlighting"
+              },
+              "overrideDefault": {
+                "type": "boolean",
+                "description": "Whether to override the default pattern with custom settings"
+              }
+            }
+          }
+        },
+        "commentLens.highlightMode": {
+          "type": "string",
+          "enum": ["always", "onHover"],
+          "default": "always",
+          "description": "When to show highlight decorations: 'always' shows all highlights, 'onHover' shows only when cursor is on the comment line"
+        },
+        "commentLens.dividerTextPosition": {
+          "type": "string",
+          "enum": ["left", "center", "right"],
+          "default": "center",
+          "description": "Default text position for dividers: 'left', 'center', or 'right'"
+        },
+        "commentLens.commentBoxTextPosition": {
+          "type": "string",
+          "enum": ["left", "center", "right"],
+          "default": "center",
+          "description": "Default text position for comment boxes: 'left', 'center', or 'right'"
+        },
+        "commentLens.dividers": {
+          "type": "array",
+          "description": "Custom divider styles",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the divider style"
+              },
+              "name": {
+                "type": "string",
+                "description": "Display name for the divider style"
+              },
+              "pattern": {
+                "type": "string",
+                "description": "Character pattern for the divider"
+              },
+              "length": {
+                "type": "number",
+                "description": "Default length of the divider"
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Whether this divider style is enabled"
+              },
+              "textPosition": {
+                "type": "string",
+                "enum": ["left", "center", "right"],
+                "description": "Position of text in the divider: 'left', 'center', or 'right'"
+              },
+              "textPadding": {
+                "type": "number",
+                "description": "Number of spaces around the text in the divider"
+              }
+            }
+          }
+        },
+        "commentLens.commentBoxes": {
+          "type": "array",
+          "description": "Custom comment box styles",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier for the comment box style"
+              },
+              "name": {
+                "type": "string",
+                "description": "Display name for the comment box style"
+              },
+              "topLeft": {
+                "type": "string",
+                "description": "Top left corner character"
+              },
+              "topRight": {
+                "type": "string",
+                "description": "Top right corner character"
+              },
+              "bottomLeft": {
+                "type": "string",
+                "description": "Bottom left corner character"
+              },
+              "bottomRight": {
+                "type": "string",
+                "description": "Bottom right corner character"
+              },
+              "horizontal": {
+                "type": "string",
+                "description": "Horizontal line character"
+              },
+              "vertical": {
+                "type": "string",
+                "description": "Vertical line character"
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Whether this comment box style is enabled"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.104.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.2",
+    "ts-loader": "^9.5.4",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
