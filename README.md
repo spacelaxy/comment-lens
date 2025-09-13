@@ -1,4 +1,9 @@
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/11c71c98-8805-4434-add4-2a33abc60fd2" alt="Comment lens logo" width="200" height="200" />
+</p>
+
 # Comment Lens
+
 
 [![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/spacelaxy/comment-lens)
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.60.0+-blue.svg)](https://code.visualstudio.com/)
