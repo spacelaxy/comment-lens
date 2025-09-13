@@ -67,7 +67,6 @@ Comment Lens transforms your code comments into a powerful documentation and hig
 - **Auto-completion**: Smart suggestions for comment tags and patterns
 - **Hover Information**: Rich hover details for comment patterns
 - **Configuration UI**: Easy setup through VS Code settings
-- **Workspace Settings**: Team-shareable configurations
 
 ## ✏️ Showcase
 
@@ -110,9 +109,9 @@ Simply write comments with common patterns:
 ```
 
 #### 2. **Generate Documentation**
-1. Right-click in any supported file
-2. Select "Generate Documentation"
-3. Choose output format and options
+1. Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
+2. Type "Generate Documentation from File"
+3. Enter filename and folder (optional)
 4. Get beautiful Markdown documentation
 
 #### 3. **Insert Dividers**
@@ -325,14 +324,13 @@ Create your own patterns with regex:
 
 ## 📚 Documentation Generation
 
-Comment Lens can generate beautiful Markdown documentation from your code comments. Simply right-click in any supported file and select "Generate Documentation" to convert your comments into organized documentation.
+Comment Lens can generate beautiful Markdown documentation from your code comments. Use the Command Palette to run "Generate Documentation from File" and convert your comments into organized documentation.
 
 **Features:**
 - Convert JSDoc, JavaDoc, XML docs, and more to Markdown
 - Automatic table of contents generation
 - Group by type (functions, classes, methods)
 - Extract and format code examples
-- Customizable templates and styling
 
 
 ## 🎨 Dividers and Comment Boxes
@@ -368,9 +366,8 @@ Available styles: Simple, Double, Rounded, Custom Unicode
 | Command | Description | Shortcut |
 |---------|-------------|----------|
 | `Comment Lens: Insert Divider` | Insert a decorative divider | `Ctrl+Shift+D` |
-| `Comment Lens: Generate Documentation` | Generate Markdown documentation | `Ctrl+Shift+G` |
-| `Comment Lens: Toggle Highlighting` | Enable/disable comment highlighting | None |
-| `Comment Lens: Refresh Patterns` | Reload comment patterns | None |
+| `Comment Lens: Insert Comment Box` | Insert a comment box | `Ctrl+Shift+B` |
+| `Comment Lens: Generate Documentation from File` | Generate Markdown documentation from current file | `Ctrl+Shift+M` |
 
 ### Command Palette
 
@@ -393,7 +390,7 @@ Comment Lens provides intelligent auto-completion for comment tags:
 
 ### Hover Information
 
-Hover over comment patterns to see detailed information:
+Hover over `@highlight` comments to see detailed information:
 
 
 
