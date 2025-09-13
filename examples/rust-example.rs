@@ -2,97 +2,97 @@
 /// 
 /// This struct contains basic user information including
 /// personal data and access permissions.
-pub struct Usuario {
+pub struct User {
     /// Unique identifier for the user
     pub id: u32,
     /// Full name of the user
-    pub nome: String,
+    pub name: String,
     /// Email address of the user
     pub email: String,
     /// Age of the user in years
-    pub idade: u8,
+    pub age: u8,
     /// Whether the user is active
-    pub ativo: bool,
+    pub active: bool,
     /// List of user permissions
-    pub permissoes: Vec<String>,
+    pub permissions: Vec<String>,
 }
 
-impl Usuario {
+impl User {
     /// Creates a new user instance.
     ///
     /// # Arguments
     ///
     /// * `id` - Unique identifier for the user
-    /// * `nome` - Full name of the user
+    /// * `name` - Full name of the user
     /// * `email` - Email address of the user
-    /// * `idade` - Age of the user in years
+    /// * `age` - Age of the user in years
     ///
     /// # Returns
     ///
-    /// A new `Usuario` instance with the provided data.
+    /// A new `User` instance with the provided data.
     ///
     /// # Example
     ///
     /// ```
-    /// let user = Usuario::new(1, "João Silva".to_string(), "joao@email.com".to_string(), 30);
+    /// let user = User::new(1, "John Doe".to_string(), "john@email.com".to_string(), 30);
     /// ```
-    pub fn new(id: u32, nome: String, email: String, idade: u8) -> Self {
-        Usuario {
+    pub fn new(id: u32, name: String, email: String, age: u8) -> Self {
+        User {
             id,
-            nome,
+            name,
             email,
-            idade,
-            ativo: true,
-            permissoes: Vec::new(),
+            age,
+            active: true,
+            permissions: Vec::new(),
         }
     }
 
     /// Activates the user account.
     ///
-    /// This method sets the `ativo` field to `true`.
+    /// This method sets the `active` field to `true`.
     ///
     /// # Example
     ///
     /// ```
-    /// let mut user = Usuario::new(1, "João".to_string(), "joao@email.com".to_string(), 30);
-    /// user.ativar();
-    /// assert!(user.ativo);
+    /// let mut user = User::new(1, "John".to_string(), "john@email.com".to_string(), 30);
+    /// user.activate();
+    /// assert!(user.active);
     /// ```
-    pub fn ativar(&mut self) {
-        self.ativo = true;
+    pub fn activate(&mut self) {
+        self.active = true;
     }
 
     /// Deactivates the user account.
     ///
-    /// This method sets the `ativo` field to `false`.
+    /// This method sets the `active` field to `false`.
     ///
     /// # Example
     ///
     /// ```
-    /// let mut user = Usuario::new(1, "João".to_string(), "joao@email.com".to_string(), 30);
-    /// user.desativar();
-    /// assert!(!user.ativo);
+    /// let mut user = User::new(1, "John".to_string(), "john@email.com".to_string(), 30);
+    /// user.deactivate();
+    /// assert!(!user.active);
     /// ```
-    pub fn desativar(&mut self) {
-        self.ativo = false;
+    pub fn deactivate(&mut self) {
+        self.active = false;
     }
 
     /// Adds a permission to the user.
     ///
     /// # Arguments
     ///
-    /// * `permissao` - Permission to be added to the user
+    /// * `permission` - Permission to be added to the user
     ///
     /// # Example
     ///
     /// ```
-    /// let mut user = Usuario::new(1, "João".to_string(), "joao@email.com".to_string(), 30);
-    /// user.adicionar_permissao("admin".to_string());
-    /// assert!(user.permissoes.contains(&"admin".to_string()));
+    /// let mut user = User::new(1, "John".to_string(), "john@email.com".to_string(), 30);
+    /// user.add_permission("admin".to_string());
+    /// assert!(user.permissions.contains(&"admin".to_string()));
     /// ```
-    pub fn adicionar_permissao(&mut self, permissao: String) {
-        if !self.permissoes.contains(&permissao) {
-            self.permissoes.push(permissao);
+    pub fn add_permission(&mut self, permission: String) {
+        if !self.permissions.contains(&permission) {
+            self.permissions.push(permission);
         }
     }
 
@@ -105,20 +105,20 @@ impl Usuario {
     /// # Example
     ///
     /// ```
-    /// let mut user = Usuario::new(1, "João".to_string(), "joao@email.com".to_string(), 30);
-    /// user.adicionar_permissao("read".to_string());
-    /// let permissoes = user.listar_permissoes();
-    /// assert_eq!(permissoes.len(), 1);
+    /// let mut user = User::new(1, "John".to_string(), "john@email.com".to_string(), 30);
+    /// user.add_permission("read".to_string());
+    /// let permissions = user.list_permissions();
+    /// assert_eq!(permissions.len(), 1);
     /// ```
-    pub fn listar_permissoes(&self) -> &Vec<String> {
-        &self.permissoes
+    pub fn list_permissions(&self) -> &Vec<String> {
+        &self.permissions
     }
 
     /// Checks if the user has a specific permission.
     ///
     /// # Arguments
     ///
-    /// * `permissao` - Permission to check
+    /// * `permission` - Permission to check
     ///
     /// # Returns
     ///
@@ -127,28 +127,28 @@ impl Usuario {
     /// # Example
     ///
     /// ```
-    /// let mut user = Usuario::new(1, "João".to_string(), "joao@email.com".to_string(), 30);
-    /// user.adicionar_permissao("admin".to_string());
-    /// assert!(user.tem_permissao("admin"));
-    /// assert!(!user.tem_permissao("write"));
+    /// let mut user = User::new(1, "John".to_string(), "john@email.com".to_string(), 30);
+    /// user.add_permission("admin".to_string());
+    /// assert!(user.has_permission("admin"));
+    /// assert!(!user.has_permission("write"));
     /// ```
-    pub fn tem_permissao(&self, permissao: &str) -> bool {
-        self.permissoes.iter().any(|p| p == permissao)
+    pub fn has_permission(&self, permission: &str) -> bool {
+        self.permissions.iter().any(|p| p == permission)
     }
 }
 
 /// Represents different user roles in the system.
 #[derive(Debug, Clone, PartialEq)]
-pub enum TipoUsuario {
+pub enum UserType {
     /// Regular user with basic permissions
-    Usuario,
+    User,
     /// Administrator with full system access
-    Administrador,
+    Admin,
     /// Moderator with limited administrative access
-    Moderador,
+    Moderator,
 }
 
-impl TipoUsuario {
+impl UserType {
     /// Returns the display name for the user type.
     ///
     /// # Returns
@@ -158,14 +158,14 @@ impl TipoUsuario {
     /// # Example
     ///
     /// ```
-    /// let tipo = TipoUsuario::Administrador;
-    /// assert_eq!(tipo.nome_display(), "Administrador");
+    /// let user_type = UserType::Admin;
+    /// assert_eq!(user_type.display_name(), "Admin");
     /// ```
-    pub fn nome_display(&self) -> &'static str {
+    pub fn display_name(&self) -> &'static str {
         match self {
-            TipoUsuario::Usuario => "Usuário",
-            TipoUsuario::Administrador => "Administrador",
-            TipoUsuario::Moderador => "Moderador",
+            UserType::User => "User",
+            UserType::Admin => "Admin",
+            UserType::Moderator => "Moderator",
         }
     }
 
@@ -178,21 +178,21 @@ impl TipoUsuario {
     /// # Example
     ///
     /// ```
-    /// let tipos = TipoUsuario::todos();
-    /// assert_eq!(tipos.len(), 3);
+    /// let types = UserType::all();
+    /// assert_eq!(types.len(), 3);
     /// ```
-    pub fn todos() -> Vec<TipoUsuario> {
+    pub fn all() -> Vec<UserType> {
         vec![
-            TipoUsuario::Usuario,
-            TipoUsuario::Administrador,
-            TipoUsuario::Moderador,
+            UserType::User,
+            UserType::Admin,
+            UserType::Moderator,
         ]
     }
 }
 
 /// Utility functions for user management.
 pub mod utils {
-    use super::Usuario;
+    use super::User;
 
     /// Validates an email address format.
     ///
@@ -207,10 +207,10 @@ pub mod utils {
     /// # Example
     ///
     /// ```
-    /// assert!(utils::validar_email("user@example.com"));
-    /// assert!(!utils::validar_email("invalid-email"));
+    /// assert!(utils::validate_email("user@example.com"));
+    /// assert!(!utils::validate_email("invalid-email"));
     /// ```
-    pub fn validar_email(email: &str) -> bool {
+    pub fn validate_email(email: &str) -> bool {
         email.contains('@') && email.contains('.')
     }
 
@@ -223,10 +223,10 @@ pub mod utils {
     /// # Example
     ///
     /// ```
-    /// let id = utils::gerar_id();
+    /// let id = utils::generate_id();
     /// assert!(id > 0);
     /// ```
-    pub fn gerar_id() -> u32 {
+    pub fn generate_id() -> u32 {
         // Simple ID generation - in real app, use proper UUID
         use std::time::{SystemTime, UNIX_EPOCH};
         SystemTime::now()

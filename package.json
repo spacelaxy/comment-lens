@@ -1,13 +1,38 @@
 {
-  "name": "comment-lens",
-  "displayName": "comment-lens",
-  "description": "",
+  "name": "spacelaxy-comment-lens",
+  "displayName": "Comment Lens",
+  "description": "Enhanced comment highlighting and documentation generation for multiple programming languages",
   "version": "0.0.1",
+  "publisher": "spacelaxy",
   "engines": {
-    "vscode": "^1.103.2"
+    "vscode": "^1.60.0"
   },
   "categories": [
+    "Programming Languages",
+    "Snippets",
     "Other"
+  ],
+  "keywords": [
+    "comments",
+    "documentation",
+    "highlighting",
+    "parsing",
+    "markdown",
+    "javadoc",
+    "jsdoc",
+    "doxygen",
+    "xml-doc",
+    "rust-doc",
+    "phpdoc",
+    "csharp",
+    "cpp",
+    "java",
+    "javascript",
+    "typescript",
+    "php",
+    "rust",
+    "code-generation",
+    "productivity"
   ],
   "activationEvents": [
     "onStartupFinished"
@@ -203,6 +228,15 @@
       }
     }
   },
+  "homepage": "https://github.com/spacelaxy/comment-lens#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spacelaxy/comment-lens.git"
+  },
+  "bugs": {
+    "url": "https://github.com/spacelaxy/comment-lens/issues"
+  },
+  "license": "MIT",
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",

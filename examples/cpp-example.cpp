@@ -4,202 +4,202 @@
 #include <memory>
 
 /**
- * @brief Classe que representa uma calculadora simples
+ * @brief Class that represents a simple calculator
  * 
- * Esta classe fornece operações básicas de matemática
- * incluindo soma, subtração, multiplicação e divisão.
+ * This class provides basic math operations
+ * including addition, subtraction, multiplication and division.
  */
-class Calculadora {
+class Calculator {
 private:
-    double ultimoResultado; ///< Armazena o último resultado calculado
+    double lastResult; ///< Stores the last calculated result
     
 public:
     /**
-     * @brief Construtor da classe Calculadora
+     * @brief Constructor of the Calculator class
      * 
-     * Inicializa a calculadora com resultado zero.
+     * Initializes the calculator with zero result.
      */
-    Calculadora() : ultimoResultado(0.0) {}
+    Calculator() : lastResult(0.0) {}
     
     /**
-     * @brief Soma dois números
+     * @brief Adds two numbers
      * 
-     * @param a Primeiro número
-     * @param b Segundo número
-     * @return Soma dos dois números
+     * @param a First number
+     * @param b Second number
+     * @return Sum of the two numbers
      */
-    double somar(double a, double b) {
-        ultimoResultado = a + b;
-        return ultimoResultado;
+    double add(double a, double b) {
+        lastResult = a + b;
+        return lastResult;
     }
     
     /**
-     * @brief Subtrai dois números
+     * @brief Subtracts two numbers
      * 
-     * @param a Número minuendo
-     * @param b Número subtraendo
-     * @return Diferença entre os números
+     * @param a Minuend number
+     * @param b Subtrahend number
+     * @return Difference between the numbers
      */
-    double subtrair(double a, double b) {
-        ultimoResultado = a - b;
-        return ultimoResultado;
+    double subtract(double a, double b) {
+        lastResult = a - b;
+        return lastResult;
     }
     
     /**
-     * @brief Multiplica dois números
+     * @brief Multiplies two numbers
      * 
-     * @param a Primeiro fator
-     * @param b Segundo fator
-     * @return Produto dos dois números
+     * @param a First factor
+     * @param b Second factor
+     * @return Product of the two numbers
      * 
-     * @note Esta operação pode resultar em overflow para números muito grandes
+     * @note This operation may result in overflow for very large numbers
      */
-    double multiplicar(double a, double b) {
-        ultimoResultado = a * b;
-        return ultimoResultado;
+    double multiply(double a, double b) {
+        lastResult = a * b;
+        return lastResult;
     }
     
     /**
-     * @brief Divide dois números
+     * @brief Divides two numbers
      * 
-     * @param a Dividendo
+     * @param a Dividend
      * @param b Divisor
-     * @return Quociente da divisão
+     * @return Quotient of the division
      * 
-     * @throws std::invalid_argument Se o divisor for zero
+     * @throws std::invalid_argument If the divisor is zero
      */
-    double dividir(double a, double b) {
+    double divide(double a, double b) {
         if (b == 0) {
-            throw std::invalid_argument("Divisão por zero não é permitida");
+            throw std::invalid_argument("Division by zero is not allowed");
         }
-        ultimoResultado = a / b;
-        return ultimoResultado;
+        lastResult = a / b;
+        return lastResult;
     }
     
     /**
-     * @brief Obtém o último resultado calculado
+     * @brief Gets the last calculated result
      * 
-     * @return O último resultado armazenado
+     * @return The last stored result
      */
-    double getUltimoResultado() const {
-        return ultimoResultado;
+    double getLastResult() const {
+        return lastResult;
     }
     
     /**
-     * @brief Limpa o último resultado
+     * @brief Clears the last result
      */
-    void limpar() {
-        ultimoResultado = 0.0;
+    void clear() {
+        lastResult = 0.0;
     }
 };
 
 /**
- * @brief Classe para gerenciar uma lista de calculadoras
+ * @brief Class to manage a list of calculators
  */
-class GerenciadorCalculadoras {
+class CalculatorManager {
 private:
-    std::vector<std::unique_ptr<Calculadora>> calculadoras;
+    std::vector<std::unique_ptr<Calculator>> calculators;
     
 public:
     /**
-     * @brief Adiciona uma nova calculadora à lista
+     * @brief Adds a new calculator to the list
      * 
-     * @return ID da calculadora adicionada
+     * @return ID of the added calculator
      */
-    int adicionarCalculadora() {
-        calculadoras.push_back(std::make_unique<Calculadora>());
-        return static_cast<int>(calculadoras.size() - 1);
+    int addCalculator() {
+        calculators.push_back(std::make_unique<Calculator>());
+        return static_cast<int>(calculators.size() - 1);
     }
     
     /**
-     * @brief Obtém uma calculadora pelo ID
+     * @brief Gets a calculator by ID
      * 
-     * @param id ID da calculadora
-     * @return Ponteiro para a calculadora ou nullptr se não encontrada
+     * @param id Calculator ID
+     * @return Pointer to the calculator or nullptr if not found
      */
-    Calculadora* obterCalculadora(int id) {
-        if (id >= 0 && id < static_cast<int>(calculadoras.size())) {
-            return calculadoras[id].get();
+    Calculator* getCalculator(int id) {
+        if (id >= 0 && id < static_cast<int>(calculators.size())) {
+            return calculators[id].get();
         }
         return nullptr;
     }
     
     /**
-     * @brief Conta o número de calculadoras
+     * @brief Counts the number of calculators
      * 
-     * @return Número total de calculadoras
+     * @return Total number of calculators
      */
-    int contarCalculadoras() const {
-        return static_cast<int>(calculadoras.size());
+    int countCalculators() const {
+        return static_cast<int>(calculators.size());
     }
 };
 
 /**
- * @brief Função utilitária para validar se um número é positivo
+ * @brief Utility function to validate if a number is positive
  * 
- * @param numero Número a ser validado
- * @return true se o número for positivo, false caso contrário
+ * @param number Number to be validated
+ * @return true if the number is positive, false otherwise
  */
-bool ehPositivo(double numero) {
+bool isPositive(double number) {
     return numero > 0;
 }
 
 /**
- * @brief Função para calcular o fatorial de um número
+ * @brief Function to calculate the factorial of a number
  * 
- * @param n Número para calcular o fatorial
- * @return Fatorial do número
+ * @param n Number to calculate factorial
+ * @return Factorial of the number
  * 
- * @throws std::invalid_argument Se o número for negativo
+ * @throws std::invalid_argument If the number is negative
  */
-long long calcularFatorial(int n) {
+long long calculateFactorial(int n) {
     if (n < 0) {
-        throw std::invalid_argument("Fatorial não é definido para números negativos");
+        throw std::invalid_argument("Factorial is not defined for negative numbers");
     }
     
-    long long resultado = 1;
+    long long result = 1;
     for (int i = 1; i <= n; ++i) {
-        resultado *= i;
+        result *= i;
     }
     
-    return resultado;
+    return result;
 }
 
 /**
- * @brief Função principal do programa
+ * @brief Main function of the program
  * 
- * @param argc Número de argumentos da linha de comando
- * @param argv Array de argumentos da linha de comando
- * @return Código de saída do programa
+ * @param argc Number of command line arguments
+ * @param argv Array of command line arguments
+ * @return Program exit code
  */
 int main(int argc, char* argv[]) {
-    std::cout << "=== Exemplo de Calculadora C++ ===" << std::endl;
+    std::cout << "=== C++ Calculator Example ===" << std::endl;
     
-    // Cria uma calculadora
-    Calculadora calc;
+    // Create a calculator
+    Calculator calc;
     
-    // Testa as operações
-    std::cout << "5 + 3 = " << calc.somar(5, 3) << std::endl;
-    std::cout << "10 - 4 = " << calc.subtrair(10, 4) << std::endl;
-    std::cout << "6 * 7 = " << calc.multiplicar(6, 7) << std::endl;
+    // Test operations
+    std::cout << "5 + 3 = " << calc.add(5, 3) << std::endl;
+    std::cout << "10 - 4 = " << calc.subtract(10, 4) << std::endl;
+    std::cout << "6 * 7 = " << calc.multiply(6, 7) << std::endl;
     
     try {
-        std::cout << "15 / 3 = " << calc.dividir(15, 3) << std::endl;
+        std::cout << "15 / 3 = " << calc.divide(15, 3) << std::endl;
         std::cout << "10 / 0 = ";
-        calc.dividir(10, 0); // Isso deve lançar uma exceção
+        calc.divide(10, 0); // This should throw an exception
     } catch (const std::invalid_argument& e) {
-        std::cout << "Erro: " << e.what() << std::endl;
+        std::cout << "Error: " << e.what() << std::endl;
     }
     
-    // Testa o gerenciador
-    GerenciadorCalculadoras gerenciador;
-    int id1 = gerenciador.adicionarCalculadora();
-    int id2 = gerenciador.adicionarCalculadora();
+    // Test the manager
+    CalculatorManager manager;
+    int id1 = manager.addCalculator();
+    int id2 = manager.addCalculator();
     
-    std::cout << "\nCalculadoras criadas: " << gerenciador.contarCalculadoras() << std::endl;
+    std::cout << "\nCalculators created: " << manager.countCalculators() << std::endl;
     
-    // Testa fatorial
-    std::cout << "Fatorial de 5 = " << calcularFatorial(5) << std::endl;
+    // Test factorial
+    std::cout << "Factorial of 5 = " << calculateFactorial(5) << std::endl;
     
     return 0;
 }
