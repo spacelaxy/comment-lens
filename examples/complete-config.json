@@ -1,0 +1,53 @@
+{
+  "commentLens.highlightMode": "always",
+  "commentLens.dividerTextPosition": "center",
+  "commentLens.commentBoxTextPosition": "center",
+  "commentLens.patterns": [
+    {
+      "id": "api",
+      "name": "API Endpoint",
+      "pattern": "@api",
+      "textColor": "#28a745",
+      "backgroundColor": "#d4edda",
+      "enabled": true,
+      "showTextColor": true,
+      "showBackgroundColor": true,
+      "overrideDefault": false
+    },
+    {
+      "id": "security",
+      "name": "Security Warning",
+      "pattern": "@security",
+      "textColor": "#dc3545",
+      "backgroundColor": "#f8d7da",
+      "enabled": true,
+      "showTextColor": true,
+      "showBackgroundColor": true,
+      "overrideDefault": false
+    }
+  ],
+  "commentLens.dividers": [
+    {
+      "id": "stars",
+      "name": "Stars",
+      "pattern": "*",
+      "length": 60,
+      "enabled": true,
+      "textPosition": "center",
+      "textPadding": 2
+    }
+  ],
+  "commentLens.commentBoxes": [
+    {
+      "id": "rounded",
+      "name": "Rounded Box",
+      "topLeft": "╭",
+      "topRight": "╮",
+      "bottomLeft": "╰",
+      "bottomRight": "╯",
+      "horizontal": "─",
+      "vertical": "│",
+      "enabled": true
+    }
+  ]
+}

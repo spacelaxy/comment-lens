@@ -1,0 +1,26 @@
+{
+  "commentLens.patterns": [
+    {
+      "id": "todo",
+      "name": "TODO",
+      "pattern": "@todo",
+      "textColor": "#ffa500",
+      "backgroundColor": "#fff3cd",
+      "enabled": true,
+      "showTextColor": true,
+      "showBackgroundColor": true,
+      "overrideDefault": false
+    },
+    {
+      "id": "bug",
+      "name": "Bug",
+      "pattern": "@bug",
+      "textColor": "#dc3545",
+      "backgroundColor": "#f8d7da",
+      "enabled": true,
+      "showTextColor": true,
+      "showBackgroundColor": true,
+      "overrideDefault": false
+    }
+  ]
+}

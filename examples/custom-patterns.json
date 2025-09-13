@@ -1,0 +1,37 @@
+{
+  "commentLens.patterns": [
+    {
+      "id": "performance",
+      "name": "Performance Note",
+      "pattern": "@perf|@PERFORMANCE",
+      "textColor": "#6f42c1",
+      "backgroundColor": "#e2d9f3",
+      "enabled": true,
+      "showTextColor": true,
+      "showBackgroundColor": true,
+      "overrideDefault": false
+    },
+    {
+      "id": "deprecated",
+      "name": "Deprecated",
+      "pattern": "@deprecated|@DEPRECATED",
+      "textColor": "#6c757d",
+      "backgroundColor": "#e9ecef",
+      "enabled": true,
+      "showTextColor": true,
+      "showBackgroundColor": true,
+      "overrideDefault": false
+    },
+    {
+      "id": "review",
+      "name": "Code Review",
+      "pattern": "@review|@REVIEW",
+      "textColor": "#17a2b8",
+      "backgroundColor": "#d1ecf1",
+      "enabled": true,
+      "showTextColor": true,
+      "showBackgroundColor": true,
+      "overrideDefault": false
+    }
+  ]
+}

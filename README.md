@@ -2,12 +2,46 @@
 
 [![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/spacelaxy/comment-lens)
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.60.0+-blue.svg)](https://code.visualstudio.com/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
 
 **Enhanced comment highlighting and documentation generation for multiple programming languages**
 
 Comment Lens transforms your code comments into a powerful documentation and highlighting system. Whether you're writing JSDoc, JavaDoc, XML documentation, or custom comment patterns, Comment Lens makes your comments more visible, organized, and useful.
 
+## 📋 Table of Contents
+
+- [✨ Features](#-features)
+  - [🎨 Smart Comment Highlighting](#-smart-comment-highlighting)
+  - [📚 Documentation Generation](#-documentation-generation)
+  - [🎯 Comment Organization](#-comment-organization)
+  - [🔧 Developer Tools](#-developer-tools)
+- [✏️ Showcase](#️-showcase)
+- [🚀 Quick Start](#-quick-start)
+  - [Installation](#installation)
+  - [Basic Usage](#basic-usage)
+- [📖 Supported Languages](#-supported-languages)
+  - [Language Examples](#language-examples)
+- [⚙️ Configuration](#️-configuration)
+  - [Settings](#settings)
+  - [Configuration Options](#configuration-options)
+- [🎯 Comment Patterns](#-comment-patterns)
+  - [Default Patterns](#default-patterns)
+  - [Custom Patterns](#custom-patterns)
+  - [Pattern Examples](#pattern-examples)
+- [📚 Documentation Generation](#-documentation-generation)
+- [🎨 Dividers and Comment Boxes](#-dividers-and-comment-boxes)
+  - [Divider Styles](#divider-styles)
+  - [Comment Boxes](#comment-boxes)
+- [🛠️ Commands](#️-commands)
+  - [Available Commands](#available-commands)
+  - [Command Palette](#command-palette)
+- [🔧 Advanced Features](#-advanced-features)
+  - [Auto-completion](#auto-completion)
+  - [Hover Information](#hover-information)
+- [🤝 Contributing](#-contributing)
+  - [Development Setup](#development-setup)
+  - [Contributing Guidelines](#contributing-guidelines)
+  - [Areas for Contribution](#areas-for-contribution)
 
 ## ✨ Features
 
@@ -34,6 +68,22 @@ Comment Lens transforms your code comments into a powerful documentation and hig
 - **Hover Information**: Rich hover details for comment patterns
 - **Configuration UI**: Easy setup through VS Code settings
 - **Workspace Settings**: Team-shareable configurations
+
+## ✏️ Showcase
+
+Classic HTML Comments
+<img width="901" height="380" alt="image" src="https://github.com/user-attachments/assets/597edab3-8d1d-4649-aecc-cfbf123ef912" />
+
+Lua lang Autocomplete
+<img width="947" height="362" alt="Screenshot 2025-09-12 212643" src="https://github.com/user-attachments/assets/2ef86023-8d66-4e8a-9ebe-15248cffce10" />
+
+Comment Highlight Showcase
+
+<img width="822" height="400" alt="Screenshot 2025-09-12 212807" src="https://github.com/user-attachments/assets/24ab4b21-a7ba-4474-8541-478897633737" />
+
+Comment Box Generator (Ctrl + Shift + B)
+<img width="760" height="472" alt="image" src="https://github.com/user-attachments/assets/ada1122f-34bb-4227-977e-50a7ac0b9626" />
+
 
 ## 🚀 Quick Start
 
