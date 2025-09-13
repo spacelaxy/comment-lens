@@ -248,7 +248,7 @@ Comment Lens can be configured through VS Code settings. Open Settings (`Ctrl+,`
 #### Comment Patterns (`commentLens.patterns`)
 - **`id`**: `string` - Unique identifier for the pattern
 - **`name`**: `string` - Display name for the pattern
-- **`pattern`**: `string` - Regex pattern to match comments
+- **`pattern`**: `string` - String pattern to match comments
 - **`textColor`**: `string` - Text color (hex, rgb, rgba)
 - **`backgroundColor`**: `string` - Background color (hex, rgb, rgba)
 - **`enabled`**: `boolean` - Whether this pattern is active
@@ -297,13 +297,13 @@ Comment Lens comes with 8 built-in patterns:
 
 ### Custom Patterns
 
-Create your own patterns with regex:
+Create your own patterns with string matching:
 
 ```json
 {
   "id": "api-endpoint",
   "name": "API Endpoint",
-  "pattern": "@API|@api|@ENDPOINT|@endpoint",
+  "pattern": "@api",
   "textColor": "#2E7D32",
   "backgroundColor": "#E8F5E8",
   "enabled": true
