@@ -1,0 +1,184 @@
+{
+  "csharp": {
+    "commentLens.patterns": [
+      {
+        "id": "xml-summary",
+        "name": "XML Summary",
+        "pattern": "/// <summary>|/// <param>|/// <returns>|/// <exception>",
+        "textColor": "#1976D2",
+        "backgroundColor": "#E3F2FD",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      },
+      {
+        "id": "csharp-todo",
+        "name": "C# TODO",
+        "pattern": "// TODO:|// HACK:|// NOTE:|// FIXME:",
+        "textColor": "#F57C00",
+        "backgroundColor": "#FFF3E0",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      }
+    ]
+  },
+  "cpp": {
+    "commentLens.patterns": [
+      {
+        "id": "doxygen-brief",
+        "name": "Doxygen Brief",
+        "pattern": "@brief|@param|@return|@throws|@see|@note|@warning",
+        "textColor": "#2E7D32",
+        "backgroundColor": "#E8F5E8",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      },
+      {
+        "id": "cpp-todo",
+        "name": "C++ TODO",
+        "pattern": "// TODO:|// FIXME:|// NOTE:|// HACK:",
+        "textColor": "#D32F2F",
+        "backgroundColor": "#FFEBEE",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      }
+    ]
+  },
+  "java": {
+    "commentLens.patterns": [
+      {
+        "id": "javadoc",
+        "name": "JavaDoc Tags",
+        "pattern": "@param|@return|@throws|@see|@since|@author|@version|@deprecated",
+        "textColor": "#1976D2",
+        "backgroundColor": "#E3F2FD",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      },
+      {
+        "id": "java-todo",
+        "name": "Java TODO",
+        "pattern": "// TODO:|// FIXME:|// NOTE:|// XXX:",
+        "textColor": "#7B1FA2",
+        "backgroundColor": "#F3E5F5",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      }
+    ]
+  },
+  "javascript": {
+    "commentLens.patterns": [
+      {
+        "id": "jsdoc",
+        "name": "JSDoc Tags",
+        "pattern": "@param|@returns?|@throws|@see|@since|@author|@version|@deprecated|@example",
+        "textColor": "#FF9800",
+        "backgroundColor": "#FFF3E0",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      },
+      {
+        "id": "js-todo",
+        "name": "JavaScript TODO",
+        "pattern": "// TODO:|// FIXME:|// NOTE:|// HACK:|// BUG:",
+        "textColor": "#E91E63",
+        "backgroundColor": "#FCE4EC",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      }
+    ]
+  },
+  "typescript": {
+    "commentLens.patterns": [
+      {
+        "id": "tsdoc",
+        "name": "TSDoc Tags",
+        "pattern": "@param|@returns?|@throws|@see|@since|@author|@version|@deprecated|@example|@public|@private|@protected",
+        "textColor": "#2196F3",
+        "backgroundColor": "#E3F2FD",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      },
+      {
+        "id": "ts-todo",
+        "name": "TypeScript TODO",
+        "pattern": "// TODO:|// FIXME:|// NOTE:|// HACK:|// BUG:|// REFACTOR:",
+        "textColor": "#9C27B0",
+        "backgroundColor": "#F3E5F5",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      }
+    ]
+  },
+  "php": {
+    "commentLens.patterns": [
+      {
+        "id": "phpdoc",
+        "name": "PHPDoc Tags",
+        "pattern": "@param|@return|@throws|@see|@since|@author|@version|@deprecated|@var|@method",
+        "textColor": "#4CAF50",
+        "backgroundColor": "#E8F5E8",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      },
+      {
+        "id": "php-todo",
+        "name": "PHP TODO",
+        "pattern": "// TODO:|// FIXME:|// NOTE:|// HACK:|# TODO:|# FIXME:",
+        "textColor": "#FF5722",
+        "backgroundColor": "#FBE9E7",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      }
+    ]
+  },
+  "rust": {
+    "commentLens.patterns": [
+      {
+        "id": "rust-doc",
+        "name": "Rust Doc",
+        "pattern": "/// # Arguments|/// # Returns|/// # Examples|/// # Panics|/// # Safety",
+        "textColor": "#FF5722",
+        "backgroundColor": "#FBE9E7",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      },
+      {
+        "id": "rust-todo",
+        "name": "Rust TODO",
+        "pattern": "// TODO:|// FIXME:|// NOTE:|// HACK:|// BUG:|// XXX:",
+        "textColor": "#795548",
+        "backgroundColor": "#EFEBE9",
+        "enabled": true,
+        "showTextColor": true,
+        "showBackgroundColor": true,
+        "overrideDefault": false
+      }
+    ]
+  }
+}
