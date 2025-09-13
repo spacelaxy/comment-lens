@@ -4,6 +4,7 @@
   "description": "Enhanced comment highlighting and documentation generation for multiple programming languages",
   "version": "0.0.1",
   "publisher": "spacelaxy",
+  "icon": "assets/logo.png",
   "engines": {
     "vscode": "^1.60.0"
   },
