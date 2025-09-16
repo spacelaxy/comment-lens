@@ -10,7 +10,7 @@ export class ConfigurationService {
     const config = vscode.workspace.getConfiguration();
     const customPatterns = config.get<Array<CommentPattern>>(this.CONFIG_KEY, []);
     
-    if(customPatterns.length === 0) return DEFAULT_PATTERNS;
+    if(customPatterns.length === 0) {return DEFAULT_PATTERNS;}
     
     const result: Array<CommentPattern> = [];
     
@@ -59,7 +59,7 @@ export class ConfigurationService {
 
   static onConfigurationChanged(callback: () => void): vscode.Disposable {
     return vscode.workspace.onDidChangeConfiguration((e) => {
-      if(e.affectsConfiguration(this.CONFIG_KEY) || e.affectsConfiguration(this.HIGHLIGHT_MODE_KEY)) callback();
+      if(e.affectsConfiguration(this.CONFIG_KEY) || e.affectsConfiguration(this.HIGHLIGHT_MODE_KEY)) {callback();}
     });
   }
 }

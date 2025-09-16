@@ -50,7 +50,7 @@ export class JavaParser extends AbstractParser {
     for(const line of lines) {
       const cleanLine = cleanCommentLine(line, 'java');
       
-      if(!cleanLine) continue;
+      if(!cleanLine) {continue;}
       
       if(cleanLine.startsWith('@param')) {
         this.parseJavaParam(cleanLine, docComment);
@@ -77,13 +77,13 @@ export class JavaParser extends AbstractParser {
       for(let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
         
-        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) continue;
+        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) {continue;}
         
         const classMatch = line.match(ParserPatterns.codeExtraction.java.class);
-        if(classMatch && classMatch[1]) return classMatch[1];
+        if(classMatch && classMatch[1]) {return classMatch[1];}
         
         const interfaceMatch = line.match(ParserPatterns.codeExtraction.java.interface);
-        if(interfaceMatch && interfaceMatch[1]) return interfaceMatch[1];
+        if(interfaceMatch && interfaceMatch[1]) {return interfaceMatch[1];}
         
         const methodMatch = line.match(ParserPatterns.codeExtraction.java.method);
         if(methodMatch && methodMatch[1]) {
@@ -110,7 +110,7 @@ export class JavaParser extends AbstractParser {
   
   private parseJavaParam(paramText: string, docComment: DocComment): void {
     const paramMatch = paramText.match(ParserPatterns.documentationParsing.java.param);
-    if(!paramMatch) return;
+    if(!paramMatch) {return;}
     
     const param: DocParam = {
       type: 'unknown',
@@ -126,7 +126,7 @@ export class JavaParser extends AbstractParser {
   
   private parseJavaReturn(returnText: string, docComment: DocComment): void {
     const returnMatch = returnText.match(ParserPatterns.documentationParsing.java.return);
-    if(!returnMatch) return;
+    if(!returnMatch) {return;}
     
     docComment.returns = {
       type: 'unknown',
@@ -137,7 +137,7 @@ export class JavaParser extends AbstractParser {
   
   private parseJavaThrows(throwsText: string, docComment: DocComment): void {
     const throwsMatch = throwsText.match(ParserPatterns.documentationParsing.java.throws);
-    if(!throwsMatch) return;
+    if(!throwsMatch) {return;}
     
     docComment.throws.push({
       type: throwsMatch[1] || 'Exception',

@@ -16,7 +16,7 @@ export class CSharpParser extends AbstractParser {
       while(currentLine < lines.length) {
         const line = lines[currentLine] || '';
         
-        if(!line.trim().startsWith('///')) break;
+        if(!line.trim().startsWith('///')) {break;}
         
         content += line + '\n';
         currentLine++;
@@ -56,12 +56,12 @@ export class CSharpParser extends AbstractParser {
     for(const line of lines) {
       let cleanLine = line.replace(ParserPatterns.contentCleaning.csharp.cleanLine, '').trim();
       
-      if(!cleanLine) continue;
+      if(!cleanLine) {continue;}
       
       if(cleanLine.startsWith('<summary>')) {
         inSummary = true;
         cleanLine = cleanLine.replace(/<summary>/, '').replace(/<\/summary>/, '').trim();
-        if(cleanLine) descriptionLines.push(cleanLine);
+        if(cleanLine) {descriptionLines.push(cleanLine);}
       } else if(cleanLine.startsWith('</summary>')) {
         inSummary = false;
       } else if(cleanLine.startsWith('<param name=')) {
@@ -72,7 +72,7 @@ export class CSharpParser extends AbstractParser {
         this.parseCSharpException(cleanLine, docComment);
       } else if(cleanLine.startsWith('<remarks>')) {
         cleanLine = cleanLine.replace(/<remarks>/, '').replace(/<\/remarks>/, '').trim();
-        if(cleanLine) descriptionLines.push(cleanLine);
+        if(cleanLine) {descriptionLines.push(cleanLine);}
       } else if(inSummary) {
         descriptionLines.push(cleanLine);
       }
@@ -92,19 +92,19 @@ export class CSharpParser extends AbstractParser {
       for(let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
         
-        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) continue;
+        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) {continue;}
         
         const classMatch = line.match(ParserPatterns.codeExtraction.csharp.class);
-        if(classMatch && classMatch[1]) return classMatch[1];
+        if(classMatch && classMatch[1]) {return classMatch[1];}
         
         const interfaceMatch = line.match(ParserPatterns.codeExtraction.csharp.interface);
-        if(interfaceMatch && interfaceMatch[1]) return interfaceMatch[1];
+        if(interfaceMatch && interfaceMatch[1]) {return interfaceMatch[1];}
         
         const structMatch = line.match(ParserPatterns.codeExtraction.csharp.struct);
-        if(structMatch && structMatch[1]) return structMatch[1];
+        if(structMatch && structMatch[1]) {return structMatch[1];}
         
         const enumMatch = line.match(ParserPatterns.codeExtraction.csharp.enum);
-        if(enumMatch && enumMatch[1]) return enumMatch[1];
+        if(enumMatch && enumMatch[1]) {return enumMatch[1];}
         
         const methodMatch = line.match(ParserPatterns.codeExtraction.csharp.method);
         if(methodMatch && methodMatch[2]) {
@@ -123,13 +123,13 @@ export class CSharpParser extends AbstractParser {
         }
         
         const propertyMatch = line.match(ParserPatterns.codeExtraction.csharp.property);
-        if(propertyMatch && propertyMatch[2]) return propertyMatch[2];
+        if(propertyMatch && propertyMatch[2]) {return propertyMatch[2];}
         
         const autoPropertyMatch = line.match(ParserPatterns.codeExtraction.csharp.autoProperty);
-        if(autoPropertyMatch && autoPropertyMatch[2]) return autoPropertyMatch[2];
+        if(autoPropertyMatch && autoPropertyMatch[2]) {return autoPropertyMatch[2];}
         
         const fieldMatch = line.match(ParserPatterns.codeExtraction.csharp.field);
-        if(fieldMatch && fieldMatch[2]) return fieldMatch[2];
+        if(fieldMatch && fieldMatch[2]) {return fieldMatch[2];}
       }
     } catch(error) {
       console.error('Error extracting function name:', error);
@@ -140,7 +140,7 @@ export class CSharpParser extends AbstractParser {
   
   private parseCSharpParam(paramText: string, docComment: DocComment): void {
     const paramMatch = paramText.match(ParserPatterns.documentationParsing.csharp.param);
-    if(!paramMatch) return;
+    if(!paramMatch) {return;}
     
     const param: DocParam = {
       type: 'unknown',
@@ -156,7 +156,7 @@ export class CSharpParser extends AbstractParser {
   
   private parseCSharpReturns(returnsText: string, docComment: DocComment): void {
     const returnsMatch = returnsText.match(ParserPatterns.documentationParsing.csharp.returns);
-    if(!returnsMatch) return;
+    if(!returnsMatch) {return;}
     
     docComment.returns = {
       type: 'unknown',
@@ -167,7 +167,7 @@ export class CSharpParser extends AbstractParser {
   
   private parseCSharpException(exceptionText: string, docComment: DocComment): void {
     const exceptionMatch = exceptionText.match(ParserPatterns.documentationParsing.csharp.exception);
-    if(!exceptionMatch) return;
+    if(!exceptionMatch) {return;}
     
     docComment.throws.push({
       type: exceptionMatch[1] || 'Exception',

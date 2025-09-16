@@ -132,42 +132,42 @@ export class RustParser extends AbstractParser {
       for(let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
         
-        if(!line || line.startsWith('//') || line.startsWith('/*')) continue;
+        if(!line || line.startsWith('//') || line.startsWith('/*')) {continue;}
         
         if(line.startsWith('///')) {
           continue;
         }
         
         const structMatch = line.match(ParserPatterns.codeExtraction.rust.struct);
-        if(structMatch && structMatch[2]) return structMatch[2];
+        if(structMatch && structMatch[2]) {return structMatch[2];}
         
         const enumMatch = line.match(ParserPatterns.codeExtraction.rust.enum);
-        if(enumMatch && enumMatch[2]) return enumMatch[2];
+        if(enumMatch && enumMatch[2]) {return enumMatch[2];}
         
         if(ParserPatterns.codeExtraction.rust.enumVariant.test(line) && !ParserPatterns.codeExtraction.rust.structEnumTrait.test(line)) {
           continue;
         }
         
         const traitMatch = line.match(ParserPatterns.codeExtraction.rust.trait);
-        if(traitMatch && traitMatch[2]) return traitMatch[2];
+        if(traitMatch && traitMatch[2]) {return traitMatch[2];}
         
         const implMatch = line.match(ParserPatterns.codeExtraction.rust.impl);
-        if(implMatch && implMatch[1]) return implMatch[1];
+        if(implMatch && implMatch[1]) {return implMatch[1];}
         
         const functionMatch = line.match(ParserPatterns.codeExtraction.rust.function);
-        if(functionMatch && functionMatch[2]) return functionMatch[2];
+        if(functionMatch && functionMatch[2]) {return functionMatch[2];}
         
         const methodMatch = line.match(ParserPatterns.codeExtraction.rust.method);
-        if(methodMatch && methodMatch[2]) return methodMatch[2];
+        if(methodMatch && methodMatch[2]) {return methodMatch[2];}
         
         const constMatch = line.match(ParserPatterns.codeExtraction.rust.const);
-        if(constMatch && constMatch[2]) return constMatch[2];
+        if(constMatch && constMatch[2]) {return constMatch[2];}
         
         const typeMatch = line.match(ParserPatterns.codeExtraction.rust.type);
-        if(typeMatch && typeMatch[2]) return typeMatch[2];
+        if(typeMatch && typeMatch[2]) {return typeMatch[2];}
         
         const macroMatch = line.match(ParserPatterns.codeExtraction.rust.macro);
-        if(macroMatch && macroMatch[2]) return macroMatch[2];
+        if(macroMatch && macroMatch[2]) {return macroMatch[2];}
       }
     } catch(error) {
       console.error('Error extracting function name:', error);
@@ -182,34 +182,34 @@ export class RustParser extends AbstractParser {
       for(let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
         
-        if(!line || line.startsWith('//') || line.startsWith('/*')) continue;
+        if(!line || line.startsWith('//') || line.startsWith('/*')) {continue;}
         
         const structMatch = line.match(ParserPatterns.codeExtraction.rust.struct);
-        if(structMatch && structMatch[2]) return DocType.CLASS;
+        if(structMatch && structMatch[2]) {return DocType.CLASS;}
         
         const enumMatch = line.match(ParserPatterns.codeExtraction.rust.enum);
-        if(enumMatch && enumMatch[2]) return DocType.CLASS;
+        if(enumMatch && enumMatch[2]) {return DocType.CLASS;}
         
         const traitMatch = line.match(ParserPatterns.codeExtraction.rust.trait);
-        if(traitMatch && traitMatch[2]) return DocType.INTERFACE;
+        if(traitMatch && traitMatch[2]) {return DocType.INTERFACE;}
         
         const implMatch = line.match(/^(pub\s+)?impl(?:\s+<[^>]+>)?\s+(?:\w+::)*\w+\s+for\s+(\w+)/);
-        if(implMatch && implMatch[2]) return DocType.CLASS;
+        if(implMatch && implMatch[2]) {return DocType.CLASS;}
         
         const functionMatch = line.match(ParserPatterns.codeExtraction.rust.function);
-        if(functionMatch && functionMatch[2]) return DocType.FUNCTION;
+        if(functionMatch && functionMatch[2]) {return DocType.FUNCTION;}
         
         const methodMatch = line.match(ParserPatterns.codeExtraction.rust.method);
-        if(methodMatch && methodMatch[2]) return DocType.METHOD;
+        if(methodMatch && methodMatch[2]) {return DocType.METHOD;}
         
         const constMatch = line.match(ParserPatterns.codeExtraction.rust.const);
-        if(constMatch && constMatch[2]) return DocType.VARIABLE;
+        if(constMatch && constMatch[2]) {return DocType.VARIABLE;}
         
         const typeMatch = line.match(ParserPatterns.codeExtraction.rust.type);
-        if(typeMatch && typeMatch[2]) return DocType.PROPERTY;
+        if(typeMatch && typeMatch[2]) {return DocType.PROPERTY;}
         
         const macroMatch = line.match(ParserPatterns.codeExtraction.rust.macro);
-        if(macroMatch && macroMatch[2]) return DocType.FUNCTION;
+        if(macroMatch && macroMatch[2]) {return DocType.FUNCTION;}
       }
     } catch(error) {
       console.error('Error determining type:', error);

@@ -24,13 +24,13 @@ export class DocumentationGeneratorService {
         placeHolder: 'documentation.md',
         value: 'documentation.md',
         validateInput: (value) => {
-          if(!value || !value.trim()) return 'Filename is required';
-          if(!value.endsWith('.md')) return 'Filename must end with .md';
+          if(!value || !value.trim()) {return 'Filename is required';}
+          if(!value.endsWith('.md')) {return 'Filename must end with .md';}
           return null;
         }
       });
       
-      if(!fileName) return;
+      if(!fileName) {return;}
       
       const folderName = await vscode.window.showInputBox({
         prompt: 'Enter folder name (optional, leave empty for root)',
