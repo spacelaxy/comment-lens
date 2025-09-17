@@ -9,7 +9,8 @@ export const ParserPatterns = {
       doxygen: /^\s*\/\*\*/,
       doxygenCommands: /^\s*\/\/\/\s*@/
     },
-    rust: /^\s*\/\/\//
+    rust: /^\s*\/\/\//,
+    ruby: /^\s*\/\/\//
   },
 
   commentBlockExtraction: {
@@ -37,6 +38,9 @@ export const ParserPatterns = {
       doxygenEnd: /^\s*\*\/\s*$/
     },
     rust: {
+      docComment: /^\s*\/\/\//
+    },
+    ruby: {
       docComment: /^\s*\/\/\//
     }
   },
@@ -107,6 +111,13 @@ export const ParserPatterns = {
       macro: /^(pub\s+)?macro_rules!\s+(\w+)/,
       enumVariant: /^\s+[A-Z]\w*/,
       structEnumTrait: /^\s+(pub\s+)?(struct|enum|trait|fn|const|type)/
+    },
+
+    ruby: {
+      method: /^\s*def\s+(?:self\.)?(\w+[?!]?)/,
+      class: /^\s*class\s+(\w+)/,      
+      module: /^\s*module\s+(\w+)/,
+      lambda: /^\s*(\w+)\s*=\s*(?:->|lambda|Proc\.new)/
     }
   },
 
@@ -184,10 +195,22 @@ export const ParserPatterns = {
       args: /^\*\s*`([^`]+)`\s*-\s*(.+)$/,
       simpleArgs: /^\*\s+(\w+)\s*-\s*(.+)$/,
       codeBlock: /^```/
+    },
+
+    ruby: {
+      param: /@param\s+(\w+)\s+(.*)/,
+      return: /@return\s+(.*)/,
+      throws: /@throws\s+(\w+)\s+(.*)/
     }
   },
 
   contentCleaning: {
+    ruby: {
+      cleanLine: /^\s*\*\s?/,
+      removeMarkers: [
+        /^\s*\/\/\//
+      ]
+    },
     java: {
       cleanLine: /^\s*\*\s?/,
       removeMarkers: [
