@@ -105,10 +105,11 @@ export class CommentHighlightProvider {
       if(!commentMatch) {continue;}
       
       const { commentText, commentStart } = commentMatch;
-      const patternIndex = commentText.indexOf(pattern.pattern);
+      const patternRegex = new RegExp(pattern.pattern, 'g');
+      let match;
       
-      if(patternIndex !== -1) {
-        if(pattern.id === 'highlight') {
+      while((match = patternRegex.exec(commentText)) !== null) {
+        if (pattern.id === 'highlight') {
           const highlightRanges = this.parseHighlightRanges(commentText, lineIndex, pattern);
           
           highlightRanges.forEach(range => {
@@ -122,16 +123,24 @@ export class CommentHighlightProvider {
           const startPos = new vscode.Position(lineIndex, prefixIndex);
           const endPos = new vscode.Position(lineIndex, line.length);
           ranges.push(new vscode.Range(startPos, endPos));
-        } else if(pattern.showBackgroundColor) {
+
+        } else if (pattern.showBackgroundColor) {
           const commentPrefix = this.getLineCommentPrefix(this.activeEditor?.document.languageId);
           const prefixIndex = commentStart - commentPrefix.length;
           const startPos = new vscode.Position(lineIndex, prefixIndex);
           const endPos = new vscode.Position(lineIndex, line.length);
           ranges.push(new vscode.Range(startPos, endPos));
+
         } else {
-          const startPos = new vscode.Position(lineIndex, commentStart + patternIndex);
-          const endPos = new vscode.Position(lineIndex, commentStart + patternIndex + pattern.pattern.length);
-          ranges.push(new vscode.Range(startPos, endPos));
+          const groupIndex = pattern.highlightGroup ?? 0;
+          const targetMatch = match[groupIndex];
+          
+          if (targetMatch) {
+            const patternIndex = match.index + (match[0].indexOf(targetMatch) || 0);
+            const startPos = new vscode.Position(lineIndex, commentStart + patternIndex);
+            const endPos = new vscode.Position(lineIndex, commentStart + patternIndex + targetMatch.length);
+            ranges.push(new vscode.Range(startPos, endPos));
+          }
         }
       }
     }

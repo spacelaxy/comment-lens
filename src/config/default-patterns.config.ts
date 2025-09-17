@@ -88,5 +88,40 @@ export const DEFAULT_PATTERNS: Array<CommentPattern> = [
     showTextColor: true,
     showBackgroundColor: true,
     overrideDefault: false
+  },
+  {
+    id: 'doctag',
+    name: 'Doc Tag',
+    pattern: '@(param|return|returns|throws|exception|raise|see|example|author|version|since|deprecated)',
+    textColor: 'rgba(196, 181, 253, 1)',
+    backgroundColor: 'transparent',
+    enabled: true,
+    showTextColor: true,
+    showBackgroundColor: false,
+    overrideDefault: false
+  },
+  {
+    id: 'param-name',
+    name: 'Parameter Name',
+    pattern: '@param\\s+([^\\s]+)',
+    textColor: 'rgba(224, 204, 255, 1)',
+    backgroundColor: 'transparent',
+    enabled: true,
+    showTextColor: true,
+    showBackgroundColor: false,
+    overrideDefault: false,
+    highlightGroup: 1
+  },
+  {
+    id: 'exception-type',
+    name: 'Exception Type',
+    pattern: '@(?:throws|exception|raise)\\s+([^\\s]+)',
+    textColor: 'rgba(156, 222, 255, 1)',
+    backgroundColor: 'transparent',
+    enabled: true,
+    showTextColor: true,
+    showBackgroundColor: false,
+    overrideDefault: false,
+    highlightGroup: 1
   }
 ];

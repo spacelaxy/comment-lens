@@ -10,7 +10,7 @@ export const ParserPatterns = {
       doxygenCommands: /^\s*\/\/\/\s*@/
     },
     rust: /^\s*\/\/\//,
-    ruby: /^\s*\/\/\//
+    ruby: /^\s*#/
   },
 
   commentBlockExtraction: {
@@ -41,7 +41,7 @@ export const ParserPatterns = {
       docComment: /^\s*\/\/\//
     },
     ruby: {
-      docComment: /^\s*\/\/\//
+      docComment: /^\s*#/
     }
   },
 
@@ -198,17 +198,18 @@ export const ParserPatterns = {
     },
 
     ruby: {
-      param: /@param\s+(\w+)\s+(.*)/,
-      return: /@return\s+(.*)/,
-      throws: /@throws\s+(\w+)\s+(.*)/
+      param: /@param\s+(?:\[([^\]]+)\]\s+)?(\w+)\s*(.*)/,
+      return: /@return(?:s)?\s+(?:\[([^\]]+)\]\s*)?(.*)/,
+      throws: /@raise\s+(?:\[([^\]]+)\]\s*)?(.*)/,
+      tag: /@(\w+)\s+(.*)/
     }
   },
 
   contentCleaning: {
     ruby: {
-      cleanLine: /^\s*\*\s?/,
+      cleanLine: /^\s*#\s?/,
       removeMarkers: [
-        /^\s*\/\/\//
+        /^\s*#\s?/
       ]
     },
     java: {
