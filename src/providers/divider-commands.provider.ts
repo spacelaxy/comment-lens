@@ -59,7 +59,7 @@ export class DividerCommandsProvider {
       prompt: 'Enter text for comment box',
       placeHolder: 'Your comment text here...'
     }).then(text => {
-      if(text) {DividerGeneratorService.insertCommentBox(style, text);}
+      if(text) DividerGeneratorService.insertCommentBox(style, text);
     });
   }
 
@@ -75,7 +75,7 @@ export class DividerCommandsProvider {
       placeHolder: 'Select a divider style'
     });
 
-    if(selected) {this.insertDivider(selected.style);}
+    if(selected) this.insertDivider(selected.style);
   }
 
   private static async showCommentBoxQuickPick(): Promise<void> {
@@ -90,6 +90,6 @@ export class DividerCommandsProvider {
       placeHolder: 'Select a comment box style'
     });
 
-    if(selected) {this.insertCommentBox(selected.style);}
+    if(selected) this.insertCommentBox(selected.style);
   }
 }

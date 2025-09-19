@@ -40,5 +40,5 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {
-	if(commentHighlightProvider) {commentHighlightProvider.dispose();}
+	if(commentHighlightProvider) commentHighlightProvider.dispose();
 }

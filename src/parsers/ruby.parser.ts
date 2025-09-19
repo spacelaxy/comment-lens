@@ -44,9 +44,7 @@ export class RubyParser extends AbstractParser {
 
     for (const line of lines) {
       const cleanLine = cleanCommentLine(line, 'ruby');
-      if (!cleanLine) {
-        continue;
-      }
+      if (!cleanLine) continue;
 
       if (cleanLine.startsWith('@')) {
         this.parseTag(cleanLine, docComment);
@@ -69,29 +67,19 @@ export class RubyParser extends AbstractParser {
       for (let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
 
-        if (!line || line.startsWith('#') || line.startsWith('=begin')) {
-          continue;
-        }
+        if (!line || line.startsWith('#') || line.startsWith('=begin')) continue;
 
         const methodMatch = line.match(ParserPatterns.codeExtraction.ruby.method);
-        if (methodMatch && methodMatch[1]) {
-          return methodMatch[1];
-        }
+        if (methodMatch && methodMatch[1]) return methodMatch[1];
 
         const classMatch = line.match(ParserPatterns.codeExtraction.ruby.class);
-        if (classMatch && classMatch[1]) {
-          return classMatch[1];
-        }
+        if (classMatch && classMatch[1]) return classMatch[1];
 
         const moduleMatch = line.match(ParserPatterns.codeExtraction.ruby.module);
-        if (moduleMatch && moduleMatch[1]) {
-          return moduleMatch[1];
-        }
+        if (moduleMatch && moduleMatch[1]) return moduleMatch[1];
         
         const lambdaMatch = line.match(ParserPatterns.codeExtraction.ruby.lambda);
-        if (lambdaMatch && lambdaMatch[1]) {
-          return lambdaMatch[1];
-        }
+        if (lambdaMatch && lambdaMatch[1]) return lambdaMatch[1];
       }
     } catch (error) {
       console.error('Error extracting function name:', error);
@@ -102,9 +90,7 @@ export class RubyParser extends AbstractParser {
 
   override parseParam(paramText: string, docComment: DocComment): void {
     const paramMatch = paramText.match(ParserPatterns.documentationParsing.ruby.param);
-    if (!paramMatch) {
-      return;
-    }
+    if (!paramMatch) return;
 
     const param: DocParam = {
       type: paramMatch[1] || 'unknown',
@@ -120,9 +106,7 @@ export class RubyParser extends AbstractParser {
 
   override parseReturn(returnText: string, docComment: DocComment): void {
     const returnMatch = returnText.match(ParserPatterns.documentationParsing.ruby.return);
-    if (!returnMatch) {
-      return;
-    }
+    if (!returnMatch) return;
 
     docComment.returns = {
       type: returnMatch[1] || 'unknown',
@@ -133,9 +117,7 @@ export class RubyParser extends AbstractParser {
 
   override parseThrows(throwsText: string, docComment: DocComment): void {
     const throwsMatch = throwsText.match(ParserPatterns.documentationParsing.ruby.throws);
-    if (!throwsMatch) {
-      return;
-    }
+    if (!throwsMatch) return;
 
     docComment.throws.push({
       type: throwsMatch[1] || 'Exception',

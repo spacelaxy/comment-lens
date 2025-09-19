@@ -50,7 +50,7 @@ export class JavaScriptParser extends AbstractParser {
     for(const line of lines) {
       const cleanLine = cleanCommentLine(line, 'javascript');
       
-      if(!cleanLine) {continue;}
+      if(!cleanLine) continue;
       
       if(cleanLine.startsWith('@param')) {
         this.parseJSDocParam(cleanLine, docComment);
@@ -77,27 +77,25 @@ export class JavaScriptParser extends AbstractParser {
       for(let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
         
-        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) {continue;}
+        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) continue;
         
         const functionMatch = line.match(ParserPatterns.codeExtraction.javascript.function);
-        if(functionMatch && functionMatch[1]) {return functionMatch[1];}
+        if(functionMatch && functionMatch[1]) return functionMatch[1];
         
         const arrowMatch = line.match(ParserPatterns.codeExtraction.javascript.arrow);
-        if(arrowMatch && arrowMatch[1]) {return arrowMatch[1];}
+        if(arrowMatch && arrowMatch[1]) return arrowMatch[1];
         
         const methodMatch = line.match(ParserPatterns.codeExtraction.javascript.method);
         if(methodMatch && methodMatch[1]) {
           const name = methodMatch[1];
-          if(!ParserPatterns.codeExtraction.javascript.keywords.includes(name)) {
-            return name;
-          }
+          if(!ParserPatterns.codeExtraction.javascript.keywords.includes(name)) return name;
         }
         
         const classMatch = line.match(ParserPatterns.codeExtraction.javascript.class);
-        if(classMatch && classMatch[1]) {return classMatch[1];}
+        if(classMatch && classMatch[1]) return classMatch[1];
         
         const constMatch = line.match(ParserPatterns.codeExtraction.javascript.const);
-        if(constMatch && constMatch[1]) {return constMatch[1];}
+        if(constMatch && constMatch[1]) return constMatch[1];
       }
     } catch(error) {
       console.error('Error extracting function name:', error);
@@ -108,7 +106,7 @@ export class JavaScriptParser extends AbstractParser {
   
   private parseJSDocParam(paramText: string, docComment: DocComment): void {
     const paramMatch = paramText.match(ParserPatterns.documentationParsing.javascript.param);
-    if(!paramMatch) {return;}
+    if(!paramMatch) return;
     
     const param: DocParam = {
       type: paramMatch[1] || 'unknown',
@@ -124,7 +122,7 @@ export class JavaScriptParser extends AbstractParser {
   
   private parseJSDocReturn(returnText: string, docComment: DocComment): void {
     const returnMatch = returnText.match(ParserPatterns.documentationParsing.javascript.return);
-    if(!returnMatch) {return;}
+    if(!returnMatch) return;
     
     docComment.returns = {
       type: returnMatch[1] || 'unknown',
@@ -135,7 +133,7 @@ export class JavaScriptParser extends AbstractParser {
   
   private parseJSDocThrows(throwsText: string, docComment: DocComment): void {
     const throwsMatch = throwsText.match(ParserPatterns.documentationParsing.javascript.throws);
-    if(!throwsMatch) {return;}
+    if(!throwsMatch) return;
     
     docComment.throws.push({
       type: throwsMatch[1] || 'Error',

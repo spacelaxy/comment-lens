@@ -6,14 +6,14 @@ export class MarkdownGeneratorService {
     const template = config.template;
     let markdown = '';
     
-    if(template.title) {markdown += `# ${template.title}\n\n`;}
-    if(template.description) {markdown += `${template.description}\n\n`;}
-    if(config.includeTableOfContents) {markdown += this.generateTableOfContents(comments) + '\n\n';}
+    if(template.title) markdown += `# ${template.title}\n\n`;
+    if(template.description) markdown += `${template.description}\n\n`;
+    if(config.includeTableOfContents) markdown += this.generateTableOfContents(comments) + '\n\n';
     
     const groupedComments = config.groupByType ? this.groupByType(comments) : { 'All': comments };
     
     for(const [groupName, groupComments] of Object.entries(groupedComments)) {
-      if(config.groupByType && groupName !== 'All') {markdown += `## ${groupName}\n\n`;}
+      if(config.groupByType && groupName !== 'All') markdown += `## ${groupName}\n\n`;
       
       const sortedComments = config.sortAlphabetically 
         ? groupComments.sort((a, b) => a.name.localeCompare(b.name))
@@ -23,8 +23,8 @@ export class MarkdownGeneratorService {
         const comment = sortedComments[i];
         if(comment) {
           markdown += this.generateCommentSection(comment, template, config);
-          if(i < sortedComments.length - 1) {markdown += '\n\n---\n\n';}
-          else {markdown += '\n\n';}
+          if(i < sortedComments.length - 1) markdown += '\n\n---\n\n';
+          else markdown += '\n\n';
         }
       }
     }
@@ -37,7 +37,7 @@ export class MarkdownGeneratorService {
     let toc = '## Table of Contents\n\n';
     
     for(const [groupName, groupComments] of Object.entries(groupedComments)) {
-      if(groupComments.length === 0) {continue;}
+      if(groupComments.length === 0) continue;
       
       toc += `- [${groupName}](#${groupName.toLowerCase()})\n`;
       for(const comment of groupComments) {
@@ -61,7 +61,7 @@ export class MarkdownGeneratorService {
     
     for(const comment of comments) {
       const groupName = this.getGroupName(comment.type);
-      if(!groups[groupName]) {groups[groupName] = [];}
+      if(!groups[groupName]) groups[groupName] = [];
       groups[groupName].push(comment);
     }
     
@@ -92,12 +92,12 @@ export class MarkdownGeneratorService {
   private static generateCommentSection(comment: DocComment, _template: MarkdownTemplate, config: DocGeneratorConfig): string {
     let section = `### ${comment.name}\n\n`;
     
-    if(comment.description) {section += `${comment.description}\n\n`;}
+    if(comment.description) section += `${comment.description}\n\n`;
     
     if(config.includeMetadata && (comment.author || comment.since)) {
       section += '#### Metadata\n\n';
-      if(comment.author) {section += `**Author**: ${comment.author}\n\n`;}
-      if(comment.since) {section += `**Since**: ${comment.since}\n\n`;}
+      if(comment.author) section += `**Author**: ${comment.author}\n\n`;
+      if(comment.since) section += `**Since**: ${comment.since}\n\n`;
     }
     
     if(comment.params && comment.params.length > 0) {
@@ -135,7 +135,7 @@ export class MarkdownGeneratorService {
     if(comment.examples && comment.examples.length > 0) {
       section += '#### Examples\n\n';
       for(const example of comment.examples) {
-        if(example.description) {section += `${example.description}\n\n`;}
+        if(example.description) section += `${example.description}\n\n`;
         if(example.code) {
           const language = example.language || 'javascript';
           section += `\`\`\`${language}\n${example.code.trim()}\n\`\`\`\n\n`;
@@ -145,8 +145,8 @@ export class MarkdownGeneratorService {
     
     if(config.includeMetadata && comment.deprecated) {
       section += '#### Deprecated\n\n';
-      if(comment.deprecatedText) {section += `${comment.deprecatedText}\n\n`;}
-      else {section += 'This item is deprecated.\n\n';}
+      if(comment.deprecatedText) section += `${comment.deprecatedText}\n\n`;
+      else section += 'This item is deprecated.\n\n';
     }
     
     if(config.includeTags && comment.tags && comment.tags.length > 0) {

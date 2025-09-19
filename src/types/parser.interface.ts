@@ -20,7 +20,7 @@ export abstract class AbstractParser implements BaseParser {
 
   protected parseTag(line: string, docComment: DocComment): void {
     const tagMatch = line.match(ParserPatterns.parserInterface.tag);
-    if(!tagMatch) {return;}
+    if(!tagMatch) return;
     
     const tagName = tagMatch[1];
     const tagValue = tagMatch[2] || '';
@@ -108,7 +108,7 @@ export abstract class AbstractParser implements BaseParser {
       paramMatch = paramText.match(ParserPatterns.parserInterface.param.withTypes);
     }
     
-    if(!paramMatch) {return;}
+    if(!paramMatch) return;
     
     let description = paramMatch[3] || '';
     description = description.replace(ParserPatterns.parserInterface.cleaning.removeDashPrefix, '').trim();
@@ -137,7 +137,7 @@ export abstract class AbstractParser implements BaseParser {
       returnMatch = returnText.match(ParserPatterns.parserInterface.return.withTypes);
     }
     
-    if(!returnMatch) {return;}
+    if(!returnMatch) return;
     
     let type = 'unknown';
     let description = '';
@@ -173,7 +173,7 @@ export abstract class AbstractParser implements BaseParser {
 
   protected parseThrows(throwsText: string, docComment: DocComment): void {
     const throwsMatch = throwsText.match(ParserPatterns.parserInterface.throws);
-    if(!throwsMatch) {return;}
+    if(!throwsMatch) return;
     
     const docThrow: DocThrow = {
       type: throwsMatch[1]?.replace(ParserPatterns.parserInterface.cleaning.removeBraces, '') || 'Error',

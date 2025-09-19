@@ -22,16 +22,14 @@ export class CppParser extends AbstractParser {
       while(currentLine < lines.length) {
         const line = lines[currentLine] || '';
         
-        if(!line.trim().startsWith('///')) {break;}
+        if(!line.trim().startsWith('///')) break;
         
         content += line + '\n';
         currentLine++;
         
         if(ParserPatterns.commentBlockExtraction.cpp.xmlEnd.test(line)) {
           const nextLine = lines[currentLine] || '';
-          if(!nextLine.trim().startsWith('///')) {
-            break;
-          }
+          if(!nextLine.trim().startsWith('///')) break;
         }
       }
       
@@ -45,14 +43,12 @@ export class CppParser extends AbstractParser {
       while(currentLine < lines.length) {
         const line = lines[currentLine] || '';
         
-        if(!line.trim().startsWith('*') && !line.trim().startsWith('*/')) {break;}
+        if(!line.trim().startsWith('*') && !line.trim().startsWith('*/')) break;
         
         content += line + '\n';
         currentLine++;
         
-        if(ParserPatterns.commentBlockExtraction.cpp.doxygenEnd.test(line)) {
-          break;
-        }
+        if(ParserPatterns.commentBlockExtraction.cpp.doxygenEnd.test(line)) break;
       }
       
       return { content: content.trim(), endLine: currentLine - 1 };
@@ -81,18 +77,18 @@ export class CppParser extends AbstractParser {
     
     for(const line of lines) {
       const cleanLine = cleanCommentLine(line, 'cpp');
-      if(!cleanLine) {continue;}
+      if(!cleanLine) continue;
       
       if(cleanLine.startsWith('<summary>')) {
         inSummary = true;
         const summaryContent = cleanLine.replace(/<summary>/, '').replace(/<\/summary>/, '').trim();
-        if(summaryContent) {descriptionLines.push(summaryContent);}
+        if(summaryContent) descriptionLines.push(summaryContent);
       } else if(cleanLine.startsWith('</summary>')) {
         inSummary = false;
       } else if(cleanLine.startsWith('@brief') || cleanLine.startsWith('\\brief')) {
         inSummary = true;
         const briefContent = cleanLine.replace(/@brief\s*/, '').replace(/\\brief\s*/, '').trim();
-        if(briefContent) {descriptionLines.push(briefContent);}
+        if(briefContent) descriptionLines.push(briefContent);
       } else if(cleanLine.startsWith('@param') || cleanLine.startsWith('\\param')) {
         this.parseDoxygenParam(cleanLine, docComment);
       } else if(cleanLine.startsWith('@return') || cleanLine.startsWith('\\return')) {
@@ -118,45 +114,37 @@ export class CppParser extends AbstractParser {
       for(let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
         
-        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) {continue;}
+        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) continue;
         
         const classMatch = line.match(ParserPatterns.codeExtraction.cpp.class);
-        if(classMatch && classMatch[1]) {return classMatch[1];}
+        if(classMatch && classMatch[1]) return classMatch[1];
         
         const namespaceMatch = line.match(ParserPatterns.codeExtraction.cpp.namespace);
-        if(namespaceMatch && namespaceMatch[1]) {return namespaceMatch[1];}
+        if(namespaceMatch && namespaceMatch[1]) return namespaceMatch[1];
         
         const functionMatch = line.match(ParserPatterns.codeExtraction.cpp.function);
         if(functionMatch && functionMatch[1]) {
           const name = functionMatch[1];
-          if(!ParserPatterns.codeExtraction.cpp.keywords.includes(name)) {
-            return name;
-          }
+          if(!ParserPatterns.codeExtraction.cpp.keywords.includes(name)) return name;
         }
         
         const methodMatch = line.match(ParserPatterns.codeExtraction.cpp.method);
         if(methodMatch && methodMatch[1]) {
           const name = methodMatch[1];
-          if(!ParserPatterns.codeExtraction.cpp.keywords.includes(name)) {
-            return name;
-          }
+          if(!ParserPatterns.codeExtraction.cpp.keywords.includes(name)) return name;
         }
         
         const constructorMatch = line.match(ParserPatterns.codeExtraction.cpp.constructor);
         if(constructorMatch && constructorMatch[1]) {
           const name = constructorMatch[1];
-          if(name.match(ParserPatterns.codeExtraction.cpp.capitalized) && !ParserPatterns.codeExtraction.cpp.keywords.includes(name)) {
-            return 'constructor';
-          }
+          if(name.match(ParserPatterns.codeExtraction.cpp.capitalized) && !ParserPatterns.codeExtraction.cpp.keywords.includes(name)) return 'constructor';
         }
         
         const destructorMatch = line.match(ParserPatterns.codeExtraction.cpp.destructor);
-        if(destructorMatch && destructorMatch[1]) {
-          return 'destructor';
-        }
+        if(destructorMatch && destructorMatch[1]) return 'destructor';
         
         const variableMatch = line.match(ParserPatterns.codeExtraction.cpp.variable);
-        if(variableMatch && variableMatch[1]) {return variableMatch[1];}
+        if(variableMatch && variableMatch[1]) return variableMatch[1];
       }
     } catch(error) {
       console.error('Error extracting function name:', error);
@@ -170,15 +158,15 @@ export class CppParser extends AbstractParser {
       for(let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
         
-        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) {continue;}
+        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) continue;
         
-        if(ParserPatterns.typeDetection.cpp.class.test(line)) {return DocType.CLASS;}
-        if(ParserPatterns.typeDetection.cpp.namespace.test(line)) {return DocType.NAMESPACE;}
-        if(ParserPatterns.typeDetection.cpp.destructor.test(line)) {return DocType.METHOD;}
-        if(ParserPatterns.typeDetection.cpp.constructor.test(line) && line.match(ParserPatterns.codeExtraction.cpp.capitalized)) {return DocType.CONSTRUCTOR;}
-        if(ParserPatterns.typeDetection.cpp.method.test(line)) {return DocType.METHOD;}
-        if(ParserPatterns.typeDetection.cpp.function.test(line)) {return DocType.FUNCTION;}
-        if(ParserPatterns.typeDetection.cpp.variable.test(line)) {return DocType.VARIABLE;}
+        if(ParserPatterns.typeDetection.cpp.class.test(line)) return DocType.CLASS;
+        if(ParserPatterns.typeDetection.cpp.namespace.test(line)) return DocType.NAMESPACE;
+        if(ParserPatterns.typeDetection.cpp.destructor.test(line)) return DocType.METHOD;
+        if(ParserPatterns.typeDetection.cpp.constructor.test(line) && line.match(ParserPatterns.codeExtraction.cpp.capitalized)) return DocType.CONSTRUCTOR;
+        if(ParserPatterns.typeDetection.cpp.method.test(line)) return DocType.METHOD;
+        if(ParserPatterns.typeDetection.cpp.function.test(line)) return DocType.FUNCTION;
+        if(ParserPatterns.typeDetection.cpp.variable.test(line)) return DocType.VARIABLE;
       }
     } catch(error) {
       console.error('Error determining type:', error);
@@ -189,7 +177,7 @@ export class CppParser extends AbstractParser {
   
   private parseDoxygenParam(paramText: string, docComment: DocComment): void {
     const paramMatch = paramText.match(ParserPatterns.documentationParsing.cpp.param);
-    if(!paramMatch) {return;}
+    if(!paramMatch) return;
     
     const name = paramMatch[1] || paramMatch[3] || '';
     const description = paramMatch[2] || paramMatch[4] || '';
@@ -208,7 +196,7 @@ export class CppParser extends AbstractParser {
   
   private parseDoxygenReturn(returnText: string, docComment: DocComment): void {
     const returnMatch = returnText.match(ParserPatterns.documentationParsing.cpp.return);
-    if(!returnMatch) {return;}
+    if(!returnMatch) return;
     
     const description = returnMatch[1] || returnMatch[2] || '';
     
@@ -221,7 +209,7 @@ export class CppParser extends AbstractParser {
   
   private parseDoxygenThrows(throwsText: string, docComment: DocComment): void {
     const throwsMatch = throwsText.match(ParserPatterns.documentationParsing.cpp.throws);
-    if(!throwsMatch) {return;}
+    if(!throwsMatch) return;
     
     const type = throwsMatch[1] || throwsMatch[3] || 'Exception';
     const description = throwsMatch[2] || throwsMatch[4] || '';

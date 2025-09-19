@@ -50,7 +50,7 @@ export class PHPParser extends AbstractParser {
     for(const line of lines) {
       const cleanLine = cleanCommentLine(line, 'php');
       
-      if(!cleanLine) {continue;}
+      if(!cleanLine) continue;
       
       if(cleanLine.startsWith('@param')) {
         this.parsePHPDocParam(cleanLine, docComment);
@@ -77,7 +77,7 @@ export class PHPParser extends AbstractParser {
       for(let i = startLine; i < Math.min(startLine + 15, lines.length); i++) {
         const line = lines[i]?.trim() || '';
         
-        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) {continue;}
+        if(!line || line.startsWith('//') || line.startsWith('/*') || line.startsWith('*')) continue;
         
         const functionMatch = line.match(ParserPatterns.codeExtraction.php.function);
         if(functionMatch && functionMatch[1]) {
@@ -88,16 +88,16 @@ export class PHPParser extends AbstractParser {
         }
         
         const classMatch = line.match(ParserPatterns.codeExtraction.php.class);
-        if(classMatch && classMatch[1]) {return classMatch[1];}
+        if(classMatch && classMatch[1]) return classMatch[1];
         
         const interfaceMatch = line.match(ParserPatterns.codeExtraction.php.interface);
-        if(interfaceMatch && interfaceMatch[1]) {return interfaceMatch[1];}
+        if(interfaceMatch && interfaceMatch[1]) return interfaceMatch[1];
         
         const traitMatch = line.match(ParserPatterns.codeExtraction.php.trait);
-        if(traitMatch && traitMatch[1]) {return traitMatch[1];}
+        if(traitMatch && traitMatch[1]) return traitMatch[1];
         
         const constMatch = line.match(ParserPatterns.codeExtraction.php.const);
-        if(constMatch && constMatch[1]) {return constMatch[1];}
+        if(constMatch && constMatch[1]) return constMatch[1];
       }
     } catch(error) {
       console.error('Error extracting function name:', error);
@@ -108,7 +108,7 @@ export class PHPParser extends AbstractParser {
   
   private parsePHPDocParam(paramText: string, docComment: DocComment): void {
     const paramMatch = paramText.match(ParserPatterns.documentationParsing.php.param);
-    if(!paramMatch) {return;}
+    if(!paramMatch) return;
     
     const param: DocParam = {
       type: paramMatch[1] || 'unknown',
@@ -124,7 +124,7 @@ export class PHPParser extends AbstractParser {
   
   private parsePHPDocReturn(returnText: string, docComment: DocComment): void {
     const returnMatch = returnText.match(ParserPatterns.documentationParsing.php.return);
-    if(!returnMatch) {return;}
+    if(!returnMatch) return;
     
     docComment.returns = {
       type: returnMatch[1] || 'unknown',
@@ -135,7 +135,7 @@ export class PHPParser extends AbstractParser {
   
   private parsePHPDocThrows(throwsText: string, docComment: DocComment): void {
     const throwsMatch = throwsText.match(ParserPatterns.documentationParsing.php.throws);
-    if(!throwsMatch) {return;}
+    if(!throwsMatch) return;
     
     docComment.throws.push({
       type: throwsMatch[1] || 'Exception',

@@ -25,7 +25,7 @@ export class CommentHighlightProvider {
     });
     
     vscode.workspace.onDidChangeTextDocument((e) => {
-      if(this.activeEditor && e.document === this.activeEditor.document) {this.updateDecorations();}
+      if(this.activeEditor && e.document === this.activeEditor.document) this.updateDecorations();
     });
     
     vscode.workspace.onDidOpenTextDocument(() => {
@@ -89,7 +89,7 @@ export class CommentHighlightProvider {
   
   private getDecorationType(pattern: CommentPattern): vscode.TextEditorDecorationType {
     let decorationType = this.decorations.get(pattern.id);
-    if(!decorationType) {decorationType = this.createDecorationType(pattern);}
+    if(!decorationType) decorationType = this.createDecorationType(pattern);
     return decorationType;
   }
   
@@ -99,10 +99,10 @@ export class CommentHighlightProvider {
     
     for(let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
       const line = lines[lineIndex];
-      if(!line) {continue;}
+      if(!line) continue;
       
       const commentMatch = this.findCommentInLine(line);
-      if(!commentMatch) {continue;}
+      if(!commentMatch) continue;
       
       const { commentText, commentStart } = commentMatch;
       const patternRegex = new RegExp(pattern.pattern, 'g');
@@ -152,20 +152,20 @@ export class CommentHighlightProvider {
     const ranges: Array<vscode.Range> = [];
     
     const highlightMatch = commentText.match(/@highlight:\s*(\d+)-(\d+)(.*)/);
-    if(!highlightMatch) {return ranges;}
+    if(!highlightMatch) return ranges;
     
     const startLine = parseInt(highlightMatch[1] || '0') - 1;
     const endLine = parseInt(highlightMatch[2] || '0') - 1;
     const comment = highlightMatch[3]?.trim() || '';
     
-    if(startLine < 0 || endLine < startLine) {return ranges;}
+    if(startLine < 0 || endLine < startLine) return ranges;
     
     const totalLines = this.activeEditor?.document.lineCount || 0;
     const actualEndLine = Math.min(endLine, totalLines - 1);
     
     for(let lineIndex = startLine; lineIndex <= actualEndLine; lineIndex++) {
       const line = this.activeEditor?.document.lineAt(lineIndex);
-      if(!line) {continue;}
+      if(!line) continue;
       
       const startPos = new vscode.Position(lineIndex, 0);
       const endPos = new vscode.Position(lineIndex, line.text.length);
@@ -196,7 +196,7 @@ export class CommentHighlightProvider {
     if(this.isLineComment(trimmedLine, languageId)) {
       const prefixes = this.getLineCommentPrefixes(languageId);
       const commentPrefix = prefixes.find(prefix => trimmedLine.startsWith(prefix)) || prefixes[0];
-      if(!commentPrefix) {return null;}
+      if(!commentPrefix) return null;
       
       const prefixIndex = line.indexOf(commentPrefix);
       return {
@@ -213,9 +213,9 @@ export class CommentHighlightProvider {
     const fileName = this.activeEditor?.document.fileName;
     
     if(fileName) {
-      if(fileName.endsWith('.env') || fileName.endsWith('.env.local') || fileName.endsWith('.env.production')) {return 'dotenv';}
-      if(fileName.endsWith('.prisma')) {return 'prisma';}
-      if(fileName.endsWith('.lua')) {return 'lua';}
+      if(fileName.endsWith('.env') || fileName.endsWith('.env.local') || fileName.endsWith('.env.production')) return 'dotenv';
+      if(fileName.endsWith('.prisma')) return 'prisma';
+      if(fileName.endsWith('.lua')) return 'lua';
     }
     
     return languageId || 'plaintext';
@@ -252,7 +252,7 @@ export class CommentHighlightProvider {
   }
   
   private updateDecorations(): void {
-    if(!this.activeEditor) {return;}
+    if(!this.activeEditor) return;
     
     this.highlightComments.clear();
     this.highlightRanges.clear();
@@ -272,17 +272,17 @@ export class CommentHighlightProvider {
   }
   
   private applyHighlightTooltips(): void {
-    if(!this.activeEditor || this.highlightComments.size === 0) {return;}
+    if(!this.activeEditor || this.highlightComments.size === 0) return;
     
     const highlightPattern = ConfigurationService.getPatterns().find(p => p.id === 'highlight');
-    if(!highlightPattern) {return;}
+    if(!highlightPattern) return;
     
     const decorationType = this.getDecorationType(highlightPattern);
     const ranges: Array<vscode.Range> = [];
     const hoverMessages: Array<vscode.MarkdownString> = [];
     
     this.highlightComments.forEach((comment, range) => {
-      if(!comment) {return;}
+      if(!comment) return;
       
       ranges.push(range);
       const hoverMessage = new vscode.MarkdownString();
@@ -290,15 +290,15 @@ export class CommentHighlightProvider {
       hoverMessages.push(hoverMessage);
     });
     
-    if(ranges.length > 0) {this.activeEditor.setDecorations(decorationType, ranges);}
+    if(ranges.length > 0) this.activeEditor.setDecorations(decorationType, ranges);
   }
 
   private updateHighlightDecorations(): void {
-    if(!this.activeEditor) {return;}
+    if(!this.activeEditor) return;
     
     const highlightMode = ConfigurationService.getHighlightMode();
     const highlightPattern = ConfigurationService.getPatterns().find(p => p.id === 'highlight');
-    if(!highlightPattern) {return;}
+    if(!highlightPattern) return;
     
     const commentDecorationType = this.getDecorationType(highlightPattern);
     const linesDecorationType = this.getHighlightLinesDecorationType(highlightPattern);
@@ -310,12 +310,12 @@ export class CommentHighlightProvider {
       lineRanges = Array.from(this.highlightRanges.keys());
       
       this.highlightCommentLines.forEach((_ranges, lineIndex) => {
-        if(!this.activeEditor) {return;}
+        if(!this.activeEditor) return;
         
         const commentLine = this.activeEditor.document.lineAt(lineIndex);
         const commentPrefix = this.getLineCommentPrefix(this.activeEditor.document.languageId);
         const prefixIndex = commentLine.text.indexOf(commentPrefix);
-        if(prefixIndex === -1) {return;}
+        if(prefixIndex === -1) return;
         
         const startPos = new vscode.Position(lineIndex, prefixIndex);
         const endPos = new vscode.Position(lineIndex, commentLine.text.length);
@@ -323,12 +323,12 @@ export class CommentHighlightProvider {
       });
     } else if(highlightMode === 'onHover') {
       this.highlightCommentLines.forEach((_ranges, lineIndex) => {
-        if(!this.activeEditor) {return;}
+        if(!this.activeEditor) return;
         
         const commentLine = this.activeEditor.document.lineAt(lineIndex);
         const commentPrefix = this.getLineCommentPrefix(this.activeEditor.document.languageId);
         const prefixIndex = commentLine.text.indexOf(commentPrefix);
-        if(prefixIndex === -1) {return;}
+        if(prefixIndex === -1) return;
         
         const startPos = new vscode.Position(lineIndex, prefixIndex);
         const endPos = new vscode.Position(lineIndex, commentLine.text.length);
@@ -360,7 +360,7 @@ export class CommentHighlightProvider {
   
   getHighlightComment(position: vscode.Position): string | null {
     for(const [range, comment] of this.highlightComments) {
-      if(range.contains(position)) {return comment;}
+      if(range.contains(position)) return comment;
     }
     return null;
   }

@@ -33,14 +33,14 @@ export class DividerGeneratorService {
     const pattern = style.pattern.repeat(Math.ceil(actualLength / style.pattern.length));
     const basePattern = pattern.substring(0, actualLength);
     
-    if(!text) {return basePattern;}
+    if(!text) return basePattern;
     
     const config = vscode.workspace.getConfiguration();
     const textPosition = config.get<'left' | 'center' | 'right'>('commentLens.dividerTextPosition', 'center');
     const textWithPadding = ` ${text} `;
     const textLength = textWithPadding.length;
     
-    if(textLength >= actualLength) {return textWithPadding;}
+    if(textLength >= actualLength) return textWithPadding;
     
     const availableLength = actualLength - textLength;
     const sideLength = Math.floor(availableLength / 2);
@@ -73,7 +73,7 @@ export class DividerGeneratorService {
 
   static insertDivider(style: DividerStyle, length?: number, text?: string): void {
     const editor = vscode.window.activeTextEditor;
-    if(!editor) {return;}
+    if(!editor) return;
 
     const languageId = editor.document.languageId;
     const commentConfig = this.getDividerConfig(languageId);
@@ -89,7 +89,7 @@ export class DividerGeneratorService {
 
   static insertCommentBox(style: CommentBoxStyle, text: string, width?: number): void {
     const editor = vscode.window.activeTextEditor;
-    if(!editor) {return;}
+    if(!editor) return;
 
     const languageId = editor.document.languageId;
     const commentConfig = this.getCommentBoxConfig(languageId);
@@ -156,13 +156,13 @@ export class DividerGeneratorService {
   }
 
   private static formatDivider(divider: string, config: CommentType): string {
-    if(config.isHtml) {return `${config.prefix} ${divider} ${config.suffix}`;}
+    if(config.isHtml) return `${config.prefix} ${divider} ${config.suffix}`;
     return `${config.prefix} ${divider}`;
   }
 
   private static formatCommentBox(lines: Array<string>, indentation: string, config: CommentType): string {
-    if(config.isHtml) {return this.formatHtmlComment(lines, indentation, config);}
-    if(config.isBlock) {return this.formatBlockComment(lines, indentation, config);}
+    if(config.isHtml) return this.formatHtmlComment(lines, indentation, config);
+    if(config.isBlock) return this.formatBlockComment(lines, indentation, config);
     return this.formatLineComment(lines, indentation, config);
   }
 

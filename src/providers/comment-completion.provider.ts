@@ -21,32 +21,32 @@ export class CommentCompletionProvider implements vscode.CompletionItemProvider 
     const line = document.lineAt(position);
     const textBeforeCursor = line.text.substring(0, position.character);
     
-    if(!this.isInComment(line.text, position.character)) {return [];}
+    if(!this.isInComment(line.text, position.character)) return [];
 
     const atMatch = textBeforeCursor.match(/@(\w*)$/);
-    if(!atMatch) {return [];}
+    if(!atMatch) return [];
 
     const typedText = atMatch[1] || '';
     const completionItems: Array<vscode.CompletionItem> = [];
 
     this.patterns.forEach(pattern => {
         if(pattern.enabled && pattern.pattern.startsWith('@')) {
-        const patternText = pattern.pattern.substring(1);
-        
-        if(patternText.toLowerCase().startsWith(typedText.toLowerCase())) {
-          const item = new vscode.CompletionItem(
-            patternText,
-            vscode.CompletionItemKind.Keyword
-          );
+          const patternText = pattern.pattern.substring(1);
           
-          item.detail = pattern.name;
-          item.documentation = this.getPatternDocumentation(pattern);
-          item.insertText = patternText;
-          item.sortText = pattern.id;
-          
-          completionItems.push(item);
+          if(patternText.toLowerCase().startsWith(typedText.toLowerCase())) {
+            const item = new vscode.CompletionItem(
+              patternText,
+              vscode.CompletionItemKind.Keyword
+            );
+            
+            item.detail = pattern.name;
+            item.documentation = this.getPatternDocumentation(pattern);
+            item.insertText = patternText;
+            item.sortText = pattern.id;
+            
+            completionItems.push(item);
+          }
         }
-      }
     });
 
     return completionItems;
@@ -55,10 +55,10 @@ export class CommentCompletionProvider implements vscode.CompletionItemProvider 
   private isInComment(line: string, character: number): boolean {
     const trimmedLine = line.trim();
     
-    if(trimmedLine.startsWith('//')) {return true;}
-    if(trimmedLine.startsWith('#')) {return true;}
-    if(trimmedLine.startsWith('<!--')) {return true;}
-    if(trimmedLine.startsWith('--')) {return true;}
+    if(trimmedLine.startsWith('//')) return true;
+    if(trimmedLine.startsWith('#')) return true;
+    if(trimmedLine.startsWith('<!--')) return true;
+    if(trimmedLine.startsWith('--')) return true;
     
     const blockCommentMatch = line.match(/\/\*(.*?)\*\//);
     const luaBlockCommentMatch = line.match(/--\[\[(.*?)\]\]/);
