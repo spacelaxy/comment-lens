@@ -95,20 +95,57 @@ export class CommentHighlightProvider {
   
   private findCommentRanges(text: string, pattern: CommentPattern): Array<vscode.Range> {
     const ranges: Array<vscode.Range> = [];
+    const languageId = this.getEffectiveLanguageId();
+
+    if (languageId === 'python') {
+      const blockRegex = this.getBlockCommentRegex(languageId);
+      blockRegex.lastIndex = 0;
+      let match;
+      while ((match = blockRegex.exec(text)) !== null) {
+        const docstringContent = match[0];
+        const docstringStartIndex = match.index;
+        const lines = docstringContent.split('\n');
+        let currentOffset = docstringStartIndex;
+
+        for (const line of lines) {
+            const patternIndex = line.indexOf(pattern.pattern);
+            if (patternIndex !== -1) {
+                const lineStartPosition = this.activeEditor!.document.positionAt(currentOffset);
+                
+                if (pattern.showBackgroundColor) {
+                    const fullLine = this.activeEditor!.document.lineAt(lineStartPosition.line);
+                    ranges.push(new vscode.Range(
+                        new vscode.Position(fullLine.lineNumber, fullLine.firstNonWhitespaceCharacterIndex),
+                        fullLine.range.end
+                    ));
+                } else {
+                    const patternStartOffset = currentOffset + patternIndex;
+                    const patternEndOffset = patternStartOffset + pattern.pattern.length;
+                    ranges.push(new vscode.Range(
+                        this.activeEditor!.document.positionAt(patternStartOffset),
+                        this.activeEditor!.document.positionAt(patternEndOffset)
+                    ));
+                }
+            }
+            currentOffset += line.length + 1;
+        }
+      }
+    }
+
     const lines = text.split('\n');
     
     for(let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
       const line = lines[lineIndex];
-      if(!line) continue;
-      
+      if (!line) continue;
+
       const commentMatch = this.findCommentInLine(line);
-      if(!commentMatch) continue;
+      if (!commentMatch) continue;
       
       const { commentText, commentStart } = commentMatch;
       const patternIndex = commentText.indexOf(pattern.pattern);
       
       if(patternIndex !== -1) {
-        if(pattern.id === 'highlight') {
+        if (pattern.id === 'highlight') {
           const highlightRanges = this.parseHighlightRanges(commentText, lineIndex, pattern);
           
           highlightRanges.forEach(range => {
@@ -122,7 +159,7 @@ export class CommentHighlightProvider {
           const startPos = new vscode.Position(lineIndex, prefixIndex);
           const endPos = new vscode.Position(lineIndex, line.length);
           ranges.push(new vscode.Range(startPos, endPos));
-        } else if(pattern.showBackgroundColor) {
+        } else if (pattern.showBackgroundColor) {
           const commentPrefix = this.getLineCommentPrefix(this.activeEditor?.document.languageId);
           const prefixIndex = commentStart - commentPrefix.length;
           const startPos = new vscode.Position(lineIndex, prefixIndex);
@@ -174,7 +211,7 @@ export class CommentHighlightProvider {
     const trimmedLine = line.trim();
     const languageId = this.getEffectiveLanguageId();
     
-    if(this.isBlockComment(trimmedLine, languageId)) {
+    if(languageId !== 'python' && this.isBlockComment(trimmedLine, languageId)) {
       const blockMatch = line.match(this.getBlockCommentRegex(languageId));
       if(blockMatch && blockMatch[1] !== undefined) {
         return {

@@ -1,114 +1,46 @@
 import * as vscode from 'vscode';
-import { CommentPattern } from '../types';
+import { ConfigurationService } from '../services';
 
 export class CommentCompletionProvider implements vscode.CompletionItemProvider {
-  private patterns: Array<CommentPattern> = [];
-
-  constructor(patterns: Array<CommentPattern>) {
-    this.patterns = patterns;
-  }
-
-  updatePatterns(patterns: Array<CommentPattern>): void {
-    this.patterns = patterns;
-  }
-
-  provideCompletionItems(
-    document: vscode.TextDocument,
-    position: vscode.Position,
-    _token: vscode.CancellationToken,
-    _context: vscode.CompletionContext
-  ): vscode.ProviderResult<Array<vscode.CompletionItem> | vscode.CompletionList> {
-    const line = document.lineAt(position);
-    const textBeforeCursor = line.text.substring(0, position.character);
+  
+  provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, _token: vscode.CancellationToken, _context: vscode.CompletionContext): vscode.ProviderResult<Array<vscode.CompletionItem>> {
+    const commentPatterns = ConfigurationService.getPatterns();
     
-    if(!this.isInComment(line.text, position.character)) return [];
+    if(this.isInsideComment(document, position)) {
+      const completionItems = commentPatterns.map(pattern => {
+        const item = new vscode.CompletionItem(pattern.pattern, vscode.CompletionItemKind.Text);
+        item.insertText = pattern.pattern.startsWith('@') ? pattern.pattern.substring(1) : pattern.pattern;
+        item.detail = `Comment Lens: ${pattern.name}`;
+        return item;
+      });
+      return completionItems;
+    }
+    
+    return [];
+  }
+  
+  private isInsideComment(document: vscode.TextDocument, position: vscode.Position): boolean {
+    const lineText = document.lineAt(position.line).text.substring(0, position.character);
+    const trimmedLine = lineText.trim();
 
-    const atMatch = textBeforeCursor.match(/@(\w*)$/);
-    if(!atMatch) return [];
+    if (trimmedLine.startsWith('//') || trimmedLine.startsWith('/*') || trimmedLine.startsWith('*') || trimmedLine.startsWith('#') || trimmedLine.startsWith('<!--')) {
+      return true;
+    }
 
-    const typedText = atMatch[1] || '';
-    const completionItems: Array<vscode.CompletionItem> = [];
-
-    this.patterns.forEach(pattern => {
-        if(pattern.enabled && pattern.pattern.startsWith('@')) {
-        const patternText = pattern.pattern.substring(1);
-        
-        if(patternText.toLowerCase().startsWith(typedText.toLowerCase())) {
-          const item = new vscode.CompletionItem(
-            patternText,
-            vscode.CompletionItemKind.Keyword
-          );
-          
-          item.detail = pattern.name;
-          item.documentation = this.getPatternDocumentation(pattern);
-          item.insertText = patternText;
-          item.sortText = pattern.id;
-          
-          completionItems.push(item);
+    if (document.languageId === 'python') {
+      const text = document.getText();
+      const offset = document.offsetAt(position);
+      const docstringRegex = /("""[\s\S]*?"""|'''[\s\S]*?''')/g;
+      let match;
+      while ((match = docstringRegex.exec(text)) !== null) {
+        const start = match.index;
+        const end = start + match[0].length;
+        if (offset >= start && offset <= end) {
+          return true;
         }
       }
-    });
-
-    return completionItems;
-  }
-
-  private isInComment(line: string, character: number): boolean {
-    const trimmedLine = line.trim();
-    
-    if(trimmedLine.startsWith('//')) return true;
-    if(trimmedLine.startsWith('#')) return true;
-    if(trimmedLine.startsWith('<!--')) return true;
-    if(trimmedLine.startsWith('--')) return true;
-    
-    const blockCommentMatch = line.match(/\/\*(.*?)\*\//);
-    const luaBlockCommentMatch = line.match(/--\[\[(.*?)\]\]/);
-    if(blockCommentMatch) {
-      const commentStart = line.indexOf('/*');
-      const commentEnd = line.indexOf('*/');
-      return character >= commentStart && character <= commentEnd + 2;
     }
-    
-    if(luaBlockCommentMatch) {
-      const commentStart = line.indexOf('--[[');
-      const commentEnd = line.indexOf(']]');
-      return character >= commentStart && character <= commentEnd + 2;
-    }
-    
+
     return false;
-  }
-
-  private getPatternDocumentation(pattern: CommentPattern): vscode.MarkdownString {
-    const md = new vscode.MarkdownString();
-    
-    switch (pattern.id) {
-      case 'warn':
-        md.appendMarkdown('**Warning** - For important warnings and alerts');
-        break;
-      case 'question':
-        md.appendMarkdown('**Question** - For questions and doubts');
-        break;
-      case 'todo':
-        md.appendMarkdown('**TODO** - For pending tasks');
-        break;
-      case 'fixme':
-        md.appendMarkdown('**FIXME** - For bugs and necessary fixes');
-        break;
-      case 'note':
-        md.appendMarkdown('**Note** - For important notes and observations');
-        break;
-      case 'highlight':
-        md.appendMarkdown('**Highlight** - For highlighting specific lines\n\nExample: `@highlight: 5-10`');
-        break;
-      case 'test':
-        md.appendMarkdown('**Test** - For marking test code');
-        break;
-      case 'status':
-        md.appendMarkdown('**Status** - For indicating code status');
-        break;
-      default:
-        md.appendMarkdown(`**${pattern.name}** - ${pattern.pattern}`);
-    }
-    
-    return md;
   }
 }
