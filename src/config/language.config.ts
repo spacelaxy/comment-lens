@@ -12,7 +12,7 @@ const BLOCK_COMMENT_C = { prefix: '/*', suffix: '*/', isBlock: true, isHtml: fal
 const BLOCK_COMMENT_HTML = { prefix: '<!--', suffix: '-->', isBlock: true, isHtml: true };
 
 const C_STYLE_LANGUAGES = ['javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'java', 'csharp', 'cpp', 'c', 'go', 'rust', 'swift', 'kotlin', 'scala', 'php'];
-const HASH_LANGUAGES = ['python', 'ruby', 'yaml', 'dockerfile', 'shellscript', 'powershell', 'dotenv', 'env'];
+const HASH_LANGUAGES = ['ruby', 'yaml', 'dockerfile', 'shellscript', 'powershell', 'dotenv', 'env'];
 const HTML_LANGUAGES = ['html', 'xml'];
 
 export const DIVIDER_CONFIG: Record<string, CommentType> = {
@@ -52,7 +52,7 @@ export const LINE_COMMENT_PREFIXES: Record<string, Array<string>> = {
   ...Object.fromEntries(HASH_LANGUAGES.map(lang => [lang, ['#']])),
   ...Object.fromEntries(HTML_LANGUAGES.map(lang => [lang, ['<!--']])),
   'php': ['//', '#'],
-  'python': ['#', '/*'],
+  'python': ['#'],
   'css': ['/*'],
   'scss': ['//', '/*'],
   'less': ['//', '/*'],
@@ -63,14 +63,18 @@ export const LINE_COMMENT_PREFIXES: Record<string, Array<string>> = {
   'plaintext': ['#']
 };
 
+const PYTHON_DOCSTRING_REGEX = /("""[\s\S]*?"""|'''[\s\S]*?''')/g;
+
 export const BLOCK_COMMENT_REGEX: Record<string, RegExp> = {
-  ...Object.fromEntries([...C_STYLE_LANGUAGES, 'css', 'scss', 'less', 'json', 'jsonc', 'prisma', 'python'].map(lang => [lang, C_STYLE_REGEX])),
+  ...Object.fromEntries([...C_STYLE_LANGUAGES, 'css', 'scss', 'less', 'json', 'jsonc', 'prisma'].map(lang => [lang, C_STYLE_REGEX])),
   ...Object.fromEntries(HTML_LANGUAGES.map(lang => [lang, HTML_REGEX])),
-  'lua': LUA_REGEX
+  'lua': LUA_REGEX,
+  'python': PYTHON_DOCSTRING_REGEX
 };
 
 export const BLOCK_COMMENT_START_LENGTH: Record<string, number> = {
   ...Object.fromEntries(HTML_LANGUAGES.map(lang => [lang, 4])),
-  ...Object.fromEntries([...C_STYLE_LANGUAGES, 'css', 'scss', 'less', 'json', 'jsonc', 'prisma', 'python'].map(lang => [lang, 2])),
-  'lua': 2
+  ...Object.fromEntries([...C_STYLE_LANGUAGES, 'css', 'scss', 'less', 'json', 'jsonc', 'prisma'].map(lang => [lang, 2])),
+  'lua': 2,
+  'python': 3
 };

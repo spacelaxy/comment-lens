@@ -1,44 +1,46 @@
 import * as vscode from 'vscode';
-import { CommentHighlightProvider, CommentCompletionProvider, CommentHoverProvider, DividerCommandsProvider, DocumentationCommandsProvider } from './providers';
+import {
+  CommentCompletionProvider,
+  CommentHighlightProvider,
+  CommentHoverProvider,
+  DividerCommandsProvider,
+  DocumentationCommandsProvider
+} from './providers';
 import { ConfigurationService } from './services';
 
-let commentHighlightProvider: CommentHighlightProvider;
-let commentCompletionProvider: CommentCompletionProvider;
-let commentHoverProvider: CommentHoverProvider;
+let completionProvider: CommentCompletionProvider;
 
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Comment Lens is active!');
-	const patterns = ConfigurationService.getPatterns();
-	
-	commentHighlightProvider = new CommentHighlightProvider();
-	commentCompletionProvider = new CommentCompletionProvider(patterns);
-	commentHoverProvider = new CommentHoverProvider(commentHighlightProvider);
-	
-	context.subscriptions.push(commentHighlightProvider);
-	
-	const completionDisposable = vscode.languages.registerCompletionItemProvider(
-		{ scheme: 'file' },
-		commentCompletionProvider,
-		'@'
-	);
-	
-	const hoverDisposable = vscode.languages.registerHoverProvider(
-		{ scheme: 'file' },
-		commentHoverProvider
-	);
-	
-	context.subscriptions.push(completionDisposable);
-	context.subscriptions.push(hoverDisposable);
+  
+  new ConfigurationService();
+  
+  const highlightProvider = new CommentHighlightProvider();
+  const hoverProvider = new CommentHoverProvider(highlightProvider);
+  completionProvider = new CommentCompletionProvider();
+  new DividerCommandsProvider();
+  new DocumentationCommandsProvider();
+  
+  context.subscriptions.push(highlightProvider);
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(
+      { scheme: 'file' },
+      completionProvider,
+      '@'
+    )
+  );
 
-	DividerCommandsProvider.registerCommands(context);
-	DocumentationCommandsProvider.registerCommands(context);
+  context.subscriptions.push(
+    vscode.languages.registerHoverProvider(
+      { scheme: 'file' },
+      hoverProvider
+    )
+  );
 
-	ConfigurationService.onConfigurationChanged(() => {
-		const updatedPatterns = ConfigurationService.getPatterns();
-		commentCompletionProvider.updatePatterns(updatedPatterns);
-	});
+  ConfigurationService.onConfigurationChanged(() => {
+    
+  });
+  
+  console.log('Comment Lens activated');
 }
 
-export function deactivate() {
-	if(commentHighlightProvider) commentHighlightProvider.dispose();
-}
+export function deactivate() {}

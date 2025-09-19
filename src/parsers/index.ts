@@ -4,7 +4,21 @@ import { JavaParser } from './java.parser';
 import { JavaScriptParser } from './javascript.parser';
 import { PHPParser } from './php.parser';
 import { RustParser } from './rust.parser';
+import { PythonParser } from './python.parser';
 import { BaseParser } from '../types/parser.interface';
+
+export const PARSERS = [
+  new CSharpParser(),
+  new CppParser(),
+  new CppParser(),
+  new CppParser(),
+  new JavaParser(),
+  new JavaScriptParser(),
+  new JavaScriptParser(),
+  new PHPParser(),
+  new RustParser(),
+  new PythonParser(),
+];
 
 export class ParserFactory {
   private static parsers = new Map<string, BaseParser>([
@@ -16,7 +30,8 @@ export class ParserFactory {
     ['javascript', new JavaScriptParser()],
     ['typescript', new JavaScriptParser()],
     ['php', new PHPParser()],
-    ['rust', new RustParser()]
+    ['rust', new RustParser()],
+    ['python', new PythonParser()]
   ]);
 
   static getParser(languageId: string): BaseParser | null {

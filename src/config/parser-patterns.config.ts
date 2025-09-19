@@ -9,7 +9,8 @@ export const ParserPatterns = {
       doxygen: /^\s*\/\*\*/,
       doxygenCommands: /^\s*\/\/\/\s*@/
     },
-    rust: /^\s*\/\/\//
+    rust: /^\s*\/\/\//,
+    python: /^\s*("""|''')/
   },
 
   commentBlockExtraction: {
@@ -38,6 +39,10 @@ export const ParserPatterns = {
     },
     rust: {
       docComment: /^\s*\/\/\//
+    },
+    python: {
+      start: /^\s*("""|''')/,
+      end: /("""|''')\s*$/
     }
   },
 
@@ -107,6 +112,13 @@ export const ParserPatterns = {
       macro: /^(pub\s+)?macro_rules!\s+(\w+)/,
       enumVariant: /^\s+[A-Z]\w*/,
       structEnumTrait: /^\s+(pub\s+)?(struct|enum|trait|fn|const|type)/
+    },
+
+    python: {
+      class: /^class\s+(\w+)/,
+      function: /^def\s+(\w+)/,
+      method: /^\s+def\s+(\w+)/,
+      keywords: ['if', 'for', 'while', 'try', 'except', 'else', 'elif', 'with']
     }
   },
 
@@ -184,6 +196,14 @@ export const ParserPatterns = {
       args: /^\*\s*`([^`]+)`\s*-\s*(.+)$/,
       simpleArgs: /^\*\s+(\w+)\s*-\s*(.+)$/,
       codeBlock: /^```/
+    },
+    python: {
+      tag: /^:(\w+):(?:\s+(.*))?$/,
+      param: /^:param\s+(\w+):\s*(.*)/,
+      type: /^:type\s+(\w+):\s*(.*)/,
+      returns: /^:returns?:\s*(.*)/,
+      rtype: /^:rtype:\s*(.*)/,
+      raises: /^:raises\s+(\w+):\s*(.*)/
     }
   },
 
@@ -234,6 +254,13 @@ export const ParserPatterns = {
       ],
       markdownLink: /\[([^\]]+)\]\(([^)]+)\)/,
       listItem: /^\* /
+    },
+    python: {
+      cleanLine: /^\s*/,
+      removeMarkers: [
+        /^\s*("""|''')/,
+        /("""|''')\s*$/
+      ]
     }
   }
 };

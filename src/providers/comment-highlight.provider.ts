@@ -95,20 +95,57 @@ export class CommentHighlightProvider {
   
   private findCommentRanges(text: string, pattern: CommentPattern): Array<vscode.Range> {
     const ranges: Array<vscode.Range> = [];
+    const languageId = this.getEffectiveLanguageId();
+
+    if (languageId === 'python') {
+      const blockRegex = this.getBlockCommentRegex(languageId);
+      blockRegex.lastIndex = 0;
+      let match;
+      while ((match = blockRegex.exec(text)) !== null) {
+        const docstringContent = match[0];
+        const patternIndex = docstringContent.indexOf(pattern.pattern);
+        if (patternIndex !== -1) {
+          const docstringStartIndex = match.index;
+          
+          if (pattern.showBackgroundColor) {
+            const startPos = this.activeEditor!.document.positionAt(docstringStartIndex);
+            const contentStartLine = startPos.line + (docstringContent.startsWith('"""') || docstringContent.startsWith("'''") ? 1 : 0);
+            const startLineContent = this.activeEditor!.document.lineAt(contentStartLine);
+            const rangeStart = new vscode.Position(contentStartLine, startLineContent.firstNonWhitespaceCharacterIndex);
+            
+            const endPos = this.activeEditor!.document.positionAt(docstringStartIndex + docstringContent.length);
+            const contentEndLine = endPos.line - (docstringContent.endsWith('"""') || docstringContent.endsWith("'''") ? 1 : 0);
+            const rangeEnd = this.activeEditor!.document.lineAt(contentEndLine).range.end;
+
+            if (rangeStart.isBefore(rangeEnd)) {
+                ranges.push(new vscode.Range(rangeStart, rangeEnd));
+            }
+          } else {
+            const patternStartOffset = docstringStartIndex + patternIndex;
+            const patternEndOffset = patternStartOffset + pattern.pattern.length;
+            ranges.push(new vscode.Range(
+              this.activeEditor!.document.positionAt(patternStartOffset),
+              this.activeEditor!.document.positionAt(patternEndOffset)
+            ));
+          }
+        }
+      }
+    }
+
     const lines = text.split('\n');
     
     for(let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
       const line = lines[lineIndex];
-      if(!line) continue;
-      
+      if (!line) continue;
+
       const commentMatch = this.findCommentInLine(line);
-      if(!commentMatch) continue;
+      if (!commentMatch) continue;
       
       const { commentText, commentStart } = commentMatch;
       const patternIndex = commentText.indexOf(pattern.pattern);
       
       if(patternIndex !== -1) {
-        if(pattern.id === 'highlight') {
+        if (pattern.id === 'highlight') {
           const highlightRanges = this.parseHighlightRanges(commentText, lineIndex, pattern);
           
           highlightRanges.forEach(range => {
@@ -122,7 +159,7 @@ export class CommentHighlightProvider {
           const startPos = new vscode.Position(lineIndex, prefixIndex);
           const endPos = new vscode.Position(lineIndex, line.length);
           ranges.push(new vscode.Range(startPos, endPos));
-        } else if(pattern.showBackgroundColor) {
+        } else if (pattern.showBackgroundColor) {
           const commentPrefix = this.getLineCommentPrefix(this.activeEditor?.document.languageId);
           const prefixIndex = commentStart - commentPrefix.length;
           const startPos = new vscode.Position(lineIndex, prefixIndex);
@@ -174,7 +211,7 @@ export class CommentHighlightProvider {
     const trimmedLine = line.trim();
     const languageId = this.getEffectiveLanguageId();
     
-    if(this.isBlockComment(trimmedLine, languageId)) {
+    if(languageId !== 'python' && this.isBlockComment(trimmedLine, languageId)) {
       const blockMatch = line.match(this.getBlockCommentRegex(languageId));
       if(blockMatch && blockMatch[1] !== undefined) {
         return {
