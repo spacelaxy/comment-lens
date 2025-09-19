@@ -103,31 +103,31 @@ export class CommentHighlightProvider {
       let match;
       while ((match = blockRegex.exec(text)) !== null) {
         const docstringContent = match[0];
-        const docstringStartIndex = match.index;
-        const lines = docstringContent.split('\n');
-        let currentOffset = docstringStartIndex;
+        const patternIndex = docstringContent.indexOf(pattern.pattern);
+        if (patternIndex !== -1) {
+          const docstringStartIndex = match.index;
+          
+          if (pattern.showBackgroundColor) {
+            const startPos = this.activeEditor!.document.positionAt(docstringStartIndex);
+            const contentStartLine = startPos.line + (docstringContent.startsWith('"""') || docstringContent.startsWith("'''") ? 1 : 0);
+            const startLineContent = this.activeEditor!.document.lineAt(contentStartLine);
+            const rangeStart = new vscode.Position(contentStartLine, startLineContent.firstNonWhitespaceCharacterIndex);
+            
+            const endPos = this.activeEditor!.document.positionAt(docstringStartIndex + docstringContent.length);
+            const contentEndLine = endPos.line - (docstringContent.endsWith('"""') || docstringContent.endsWith("'''") ? 1 : 0);
+            const rangeEnd = this.activeEditor!.document.lineAt(contentEndLine).range.end;
 
-        for (const line of lines) {
-            const patternIndex = line.indexOf(pattern.pattern);
-            if (patternIndex !== -1) {
-                const lineStartPosition = this.activeEditor!.document.positionAt(currentOffset);
-                
-                if (pattern.showBackgroundColor) {
-                    const fullLine = this.activeEditor!.document.lineAt(lineStartPosition.line);
-                    ranges.push(new vscode.Range(
-                        new vscode.Position(fullLine.lineNumber, fullLine.firstNonWhitespaceCharacterIndex),
-                        fullLine.range.end
-                    ));
-                } else {
-                    const patternStartOffset = currentOffset + patternIndex;
-                    const patternEndOffset = patternStartOffset + pattern.pattern.length;
-                    ranges.push(new vscode.Range(
-                        this.activeEditor!.document.positionAt(patternStartOffset),
-                        this.activeEditor!.document.positionAt(patternEndOffset)
-                    ));
-                }
+            if (rangeStart.isBefore(rangeEnd)) {
+                ranges.push(new vscode.Range(rangeStart, rangeEnd));
             }
-            currentOffset += line.length + 1;
+          } else {
+            const patternStartOffset = docstringStartIndex + patternIndex;
+            const patternEndOffset = patternStartOffset + pattern.pattern.length;
+            ranges.push(new vscode.Range(
+              this.activeEditor!.document.positionAt(patternStartOffset),
+              this.activeEditor!.document.positionAt(patternEndOffset)
+            ));
+          }
         }
       }
     }

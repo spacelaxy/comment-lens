@@ -88,5 +88,38 @@ export const DEFAULT_PATTERNS: Array<CommentPattern> = [
     showTextColor: true,
     showBackgroundColor: true,
     overrideDefault: false
+  },
+  {
+    id: 'sphinx.param',
+    name: 'Sphinx Param',
+    pattern: ':param',
+    textColor: 'rgba(59, 130, 246, 0.7)',
+    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+    enabled: true,
+    showTextColor: false,
+    showBackgroundColor: true,
+    overrideDefault: false
+  },
+  {
+    id: 'sphinx.returns',
+    name: 'Sphinx Returns',
+    pattern: ':returns',
+    textColor: 'rgba(59, 130, 246, 0.7)',
+    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+    enabled: true,
+    showTextColor: false,
+    showBackgroundColor: true,
+    overrideDefault: false
+  },
+  {
+    id: 'sphinx.raises',
+    name: 'Sphinx Raises',
+    pattern: ':raises',
+    textColor: 'rgba(59, 130, 246, 0.7)',
+    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+    enabled: true,
+    showTextColor: false,
+    showBackgroundColor: true,
+    overrideDefault: false
   }
 ];

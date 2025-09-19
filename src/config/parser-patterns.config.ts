@@ -198,9 +198,12 @@ export const ParserPatterns = {
       codeBlock: /^```/
     },
     python: {
-      section: /^(Args|Returns|Raises):$/,
-      param: /^\s{4}(\w+)\s*(?:\(([^)]+)\))?:\s*(.*)$/,
-      returns: /^\s{4}(.*)$/
+      tag: /^:(\w+):(?:\s+(.*))?$/,
+      param: /^:param\s+(\w+):\s*(.*)/,
+      type: /^:type\s+(\w+):\s*(.*)/,
+      returns: /^:returns?:\s*(.*)/,
+      rtype: /^:rtype:\s*(.*)/,
+      raises: /^:raises\s+(\w+):\s*(.*)/
     }
   },
 

@@ -53,64 +53,78 @@ export class PythonParser extends AbstractParser {
     };
     
     let descriptionLines: Array<string> = [];
-    let currentSection: 'Args' | 'Returns' | 'Raises' | null = null;
+    let lastParsedTag: any = null;
 
-    for(const line of lines) {
-      const cleanLine = cleanCommentLine(line, 'python');
-      if (!cleanLine) continue;
+    for(const rawLine of lines) {
+      const line = cleanCommentLine(rawLine, 'python').trim();
+      if (!line) continue;
 
-      const sectionMatch = cleanLine.match(ParserPatterns.documentationParsing.python.section);
-      if (sectionMatch && sectionMatch[1]) {
-        const section = sectionMatch[1];
-        if (section === 'Args' || section === 'Returns' || section === 'Raises') {
-          currentSection = section;
-        } else {
-          currentSection = null;
-        }
-        continue;
-      }
+      const tagMatch = line.match(ParserPatterns.documentationParsing.python.tag);
+      if (tagMatch) {
+        lastParsedTag = null; // Reset for each new tag
+        const tagName = tagMatch[1];
+        const tagContent = tagMatch[2] || '';
 
-      switch (currentSection) {
-        case 'Args': {
-          const paramMatch = cleanLine.match(ParserPatterns.documentationParsing.python.param);
-          if (paramMatch) {
-            const param: DocParam = {
-              name: paramMatch[1] || '',
-              type: paramMatch[2] || 'unknown',
-              description: paramMatch[3] || '',
-              optional: false,
-              nullable: false,
-              variadic: false
-            };
-            docComment.params.push(param);
+        switch (tagName) {
+          case 'param': {
+            const paramMatch = tagContent.match(/(\w+):\s*(.*)/);
+            if (paramMatch) {
+              const param: DocParam = {
+                name: paramMatch[1] || '',
+                type: 'unknown',
+                description: paramMatch[2] || '',
+                optional: false, nullable: false, variadic: false
+              };
+              docComment.params.push(param);
+              lastParsedTag = param;
+            }
+            break;
           }
-          break;
+          case 'type': {
+            const typeMatch = tagContent.match(/(\w+):\s*(.*)/);
+            if (typeMatch) {
+              const param = docComment.params.find(p => p.name === typeMatch[1]);
+              if (param) {
+                param.type = typeMatch[2] || 'unknown';
+              }
+            }
+            break;
+          }
+          case 'return':
+          case 'returns': {
+            if (!docComment.returns) {
+              docComment.returns = { type: 'unknown', description: '', nullable: false };
+            }
+            docComment.returns.description = (docComment.returns.description + ' ' + tagContent).trim();
+            lastParsedTag = docComment.returns;
+            break;
+          }
+          case 'rtype': {
+            if (!docComment.returns) {
+              docComment.returns = { type: 'unknown', description: '', nullable: false };
+            }
+            docComment.returns.type = tagContent;
+            break;
+          }
+          case 'raises': {
+            const raisesMatch = tagContent.match(/(\w+):\s*(.*)/);
+            if (raisesMatch) {
+              const exception = { type: raisesMatch[1] || 'Exception', description: raisesMatch[2] || '' };
+              docComment.throws.push(exception);
+              lastParsedTag = exception;
+            }
+            break;
+          }
         }
-        case 'Returns':
-          if (!docComment.returns) {
-            docComment.returns = { type: 'unknown', description: '', nullable: false };
-          }
-          docComment.returns.description += ' ' + cleanLine.trim();
-          break;
-        case 'Raises': {
-          const throwsMatch = cleanLine.match(ParserPatterns.documentationParsing.python.param);
-          if(throwsMatch) {
-            docComment.throws.push({ type: throwsMatch[1] || 'Exception', description: throwsMatch[3] || '' });
-          }
-          break;
-        }
-        default:
-          descriptionLines.push(cleanLine);
-          break;
+      } else if (lastParsedTag && line.trim().length > 0) {
+        lastParsedTag.description = (lastParsedTag.description + ' ' + line.trim()).trim();
+      } else {
+        descriptionLines.push(line);
       }
     }
 
     if(descriptionLines.length > 0) {
       docComment.description = descriptionLines.join(' ').replace(/\s+/g, ' ').trim();
-    }
-
-    if (docComment.returns?.description) {
-      docComment.returns.description = docComment.returns.description.trim();
     }
     
     this.determineTypeAndName(docComment);

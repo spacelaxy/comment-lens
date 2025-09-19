@@ -137,6 +137,7 @@ Simply write comments with common patterns:
 | **TypeScript** | TSDoc | ✅ Full Support |
 | **PHP** | PHPDoc | ✅ Full Support |
 | **Rust** | Rust Doc | ✅ Full Support |
+| **Python** | Sphinx | ✅ Full Support |
 
 ### Language Examples
 
@@ -187,6 +188,20 @@ public User createUser(int id, String name) {
 async function processUser(user) {
     // Implementation here
 }
+```
+
+#### Python Sphinx
+```python
+"""This is a reST style.
+
+:param param1: this is a first param
+:param param2: this is a second param
+:returns: this is a description of what is returned
+:raises keyError: raises an exception
+"""
+def function_with_pep257_and_sphinx_docstring(param1, param2):
+    # Implementation here
+    pass
 ```
 
 ## ⚙️ Configuration
