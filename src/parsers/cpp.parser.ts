@@ -29,9 +29,7 @@ export class CppParser extends AbstractParser {
         
         if(ParserPatterns.commentBlockExtraction.cpp.xmlEnd.test(line)) {
           const nextLine = lines[currentLine] || '';
-          if(!nextLine.trim().startsWith('///')) {
-            break;
-          }
+          if(!nextLine.trim().startsWith('///')) break;
         }
       }
       
@@ -50,9 +48,7 @@ export class CppParser extends AbstractParser {
         content += line + '\n';
         currentLine++;
         
-        if(ParserPatterns.commentBlockExtraction.cpp.doxygenEnd.test(line)) {
-          break;
-        }
+        if(ParserPatterns.commentBlockExtraction.cpp.doxygenEnd.test(line)) break;
       }
       
       return { content: content.trim(), endLine: currentLine - 1 };
@@ -129,31 +125,23 @@ export class CppParser extends AbstractParser {
         const functionMatch = line.match(ParserPatterns.codeExtraction.cpp.function);
         if(functionMatch && functionMatch[1]) {
           const name = functionMatch[1];
-          if(!ParserPatterns.codeExtraction.cpp.keywords.includes(name)) {
-            return name;
-          }
+          if(!ParserPatterns.codeExtraction.cpp.keywords.includes(name)) return name;
         }
         
         const methodMatch = line.match(ParserPatterns.codeExtraction.cpp.method);
         if(methodMatch && methodMatch[1]) {
           const name = methodMatch[1];
-          if(!ParserPatterns.codeExtraction.cpp.keywords.includes(name)) {
-            return name;
-          }
+          if(!ParserPatterns.codeExtraction.cpp.keywords.includes(name)) return name;
         }
         
         const constructorMatch = line.match(ParserPatterns.codeExtraction.cpp.constructor);
         if(constructorMatch && constructorMatch[1]) {
           const name = constructorMatch[1];
-          if(name.match(ParserPatterns.codeExtraction.cpp.capitalized) && !ParserPatterns.codeExtraction.cpp.keywords.includes(name)) {
-            return 'constructor';
-          }
+          if(name.match(ParserPatterns.codeExtraction.cpp.capitalized) && !ParserPatterns.codeExtraction.cpp.keywords.includes(name)) return 'constructor';
         }
         
         const destructorMatch = line.match(ParserPatterns.codeExtraction.cpp.destructor);
-        if(destructorMatch && destructorMatch[1]) {
-          return 'destructor';
-        }
+        if(destructorMatch && destructorMatch[1]) return 'destructor';
         
         const variableMatch = line.match(ParserPatterns.codeExtraction.cpp.variable);
         if(variableMatch && variableMatch[1]) return variableMatch[1];

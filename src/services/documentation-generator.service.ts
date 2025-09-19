@@ -83,7 +83,7 @@ export class DocumentationGeneratorService {
   }
   
   private static isSupportedFileType(languageId: string): boolean {
-    const supportedTypes = ['javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'php', 'java', 'csharp', 'cpp', 'c', 'cuda-cpp', 'rust'];
+    const supportedTypes = ['javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'php', 'java', 'csharp', 'cpp', 'c', 'cuda-cpp', 'rust', 'ruby'];
     return supportedTypes.includes(languageId);
   }
 }

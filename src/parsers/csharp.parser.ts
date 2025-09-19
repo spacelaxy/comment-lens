@@ -23,9 +23,7 @@ export class CSharpParser extends AbstractParser {
         
         if(ParserPatterns.commentBlockExtraction.csharp.endSummary.test(line)) {
           const nextLine = lines[currentLine] || '';
-          if(!nextLine.trim().startsWith('///') || !ParserPatterns.commentBlockExtraction.csharp.xmlTag.test(nextLine)) {
-            break;
-          }
+          if(!nextLine.trim().startsWith('///') || !ParserPatterns.commentBlockExtraction.csharp.xmlTag.test(nextLine)) break;
         }
       }
       
@@ -109,17 +107,13 @@ export class CSharpParser extends AbstractParser {
         const methodMatch = line.match(ParserPatterns.codeExtraction.csharp.method);
         if(methodMatch && methodMatch[2]) {
           const name = methodMatch[2];
-          if(!ParserPatterns.codeExtraction.csharp.keywords.includes(name)) {
-            return name;
-          }
+          if(!ParserPatterns.codeExtraction.csharp.keywords.includes(name)) return name;
         }
         
         const constructorMatch = line.match(ParserPatterns.codeExtraction.csharp.constructor);
         if(constructorMatch && constructorMatch[1]) {
           const name = constructorMatch[1];
-          if(name.match(ParserPatterns.codeExtraction.csharp.capitalized) && !ParserPatterns.codeExtraction.csharp.keywords.includes(name)) {
-            return 'constructor';
-          }
+          if(name.match(ParserPatterns.codeExtraction.csharp.capitalized) && !ParserPatterns.codeExtraction.csharp.keywords.includes(name)) return 'constructor';
         }
         
         const propertyMatch = line.match(ParserPatterns.codeExtraction.csharp.property);

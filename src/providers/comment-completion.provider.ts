@@ -31,22 +31,22 @@ export class CommentCompletionProvider implements vscode.CompletionItemProvider 
 
     this.patterns.forEach(pattern => {
         if(pattern.enabled && pattern.pattern.startsWith('@')) {
-        const patternText = pattern.pattern.substring(1);
-        
-        if(patternText.toLowerCase().startsWith(typedText.toLowerCase())) {
-          const item = new vscode.CompletionItem(
-            patternText,
-            vscode.CompletionItemKind.Keyword
-          );
+          const patternText = pattern.pattern.substring(1);
           
-          item.detail = pattern.name;
-          item.documentation = this.getPatternDocumentation(pattern);
-          item.insertText = patternText;
-          item.sortText = pattern.id;
-          
-          completionItems.push(item);
+          if(patternText.toLowerCase().startsWith(typedText.toLowerCase())) {
+            const item = new vscode.CompletionItem(
+              patternText,
+              vscode.CompletionItemKind.Keyword
+            );
+            
+            item.detail = pattern.name;
+            item.documentation = this.getPatternDocumentation(pattern);
+            item.insertText = patternText;
+            item.sortText = pattern.id;
+            
+            completionItems.push(item);
+          }
         }
-      }
     });
 
     return completionItems;

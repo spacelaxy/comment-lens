@@ -4,7 +4,6 @@
 
 # Comment Lens
 
-
 [![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/spacelaxy/comment-lens)
 [![VS Code](https://img.shields.io/badge/VS%20Code-1.60.0+-blue.svg)](https://code.visualstudio.com/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
@@ -51,24 +50,28 @@ Comment Lens transforms your code comments into a powerful documentation and hig
 ## ✨ Features
 
 ### 🎨 **Smart Comment Highlighting**
+
 - **Multi-language Support**: C#, C++, Java, JavaScript, TypeScript, PHP, Rust
 - **Semantic Colors**: Different colors for TODOs, FIXMEs, warnings, and more
 - **Custom Patterns**: Define your own comment patterns with regex
 - **Real-time Updates**: Instant highlighting as you type
 
 ### 📚 **Documentation Generation**
+
 - **Markdown Export**: Convert comments to beautiful Markdown documentation
 - **Multiple Formats**: Support for JSDoc, JavaDoc, Doxygen, XML docs, and more
 - **Table of Contents**: Automatic generation with customizable templates
 - **Code Examples**: Extract and format code examples from comments
 
 ### 🎯 **Comment Organization**
+
 - **Divider Creation**: Insert decorative dividers between code sections
 - **Comment Boxes**: Create visually appealing comment containers
 - **Quick Insert**: Fast access via command palette and context menus
 - **Customizable Styles**: Full control over appearance and behavior
 
 ### 🔧 **Developer Tools**
+
 - **Auto-completion**: Smart suggestions for comment tags and patterns
 - **Hover Information**: Rich hover details for comment patterns
 - **Configuration UI**: Easy setup through VS Code settings
@@ -88,7 +91,6 @@ Comment Highlight Showcase
 Comment Box Generator (Ctrl + Shift + B)
 <img width="760" height="472" alt="image" src="https://github.com/user-attachments/assets/ada1122f-34bb-4227-977e-50a7ac0b9626" />
 
-
 ## 🚀 Quick Start
 
 ### Installation
@@ -104,6 +106,7 @@ Comment Box Generator (Ctrl + Shift + B)
 Comment Lens works automatically once installed. Here's how to get started:
 
 #### 1. **Highlight Comments**
+
 Simply write comments with common patterns:
 
 ```javascript
@@ -114,33 +117,36 @@ Simply write comments with common patterns:
 ```
 
 #### 2. **Generate Documentation**
+
 1. Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
 2. Type "Generate Documentation from File"
 3. Enter filename and folder (optional)
 4. Get beautiful Markdown documentation
 
 #### 3. **Insert Dividers**
+
 1. Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
 2. Type "Insert Divider"
 3. Choose your preferred style
 4. Customize length and text position
 
-
 ## 📖 Supported Languages
 
-| Language | Documentation Format | Status |
-|----------|---------------------|--------|
-| **C#** | XML Documentation | ✅ Full Support |
-| **C++** | Doxygen, XML | ✅ Full Support |
-| **Java** | JavaDoc | ✅ Full Support |
-| **JavaScript** | JSDoc | ✅ Full Support |
-| **TypeScript** | TSDoc | ✅ Full Support |
-| **PHP** | PHPDoc | ✅ Full Support |
-| **Rust** | Rust Doc | ✅ Full Support |
+| Language       | Documentation Format | Status          |
+| -------------- | -------------------- | --------------- |
+| **C#**         | XML Documentation    | ✅ Full Support |
+| **C++**        | Doxygen, XML         | ✅ Full Support |
+| **Java**       | JavaDoc              | ✅ Full Support |
+| **JavaScript** | JSDoc                | ✅ Full Support |
+| **TypeScript** | TSDoc                | ✅ Full Support |
+| **PHP**        | PHPDoc               | ✅ Full Support |
+| **Rust**       | Rust Doc             | ✅ Full Support |
+| **Ruby**       | YARD                 | ✅ Full Support |
 
 ### Language Examples
 
 #### C# XML Documentation
+
 ```csharp
 /// <summary>
 /// Calculates the area of a circle
@@ -155,10 +161,11 @@ public double CalculateArea(double radius)
 ```
 
 #### Java JavaDoc
+
 ```java
 /**
  * Represents a user in the system
- * 
+ *
  * @param id The unique identifier
  * @param name The user's full name
  * @return A new User instance
@@ -170,6 +177,7 @@ public User createUser(int id, String name) {
 ```
 
 #### JavaScript JSDoc
+
 ```javascript
 /**
  * Processes user data with validation
@@ -185,8 +193,27 @@ public User createUser(int id, String name) {
  * });
  */
 async function processUser(user) {
-    // Implementation here
+  // Implementation here
 }
+```
+
+#### Ruby YARD
+
+```rb
+# frozen_string_literal: true
+
+# Creates a user with the given id and name.
+#
+# @param id [Integer] The user's unique identifier.
+# @param name [String] The user's full name.
+# @return [User] The newly created user object.
+# @raise [ArgumentError] If the id is negative.
+def create_user(id, name)
+  raise ArgumentError, 'ID cannot be negative' if id.negative?
+
+  # User creation logic goes here...
+end
+
 ```
 
 ## ⚙️ Configuration
@@ -196,6 +223,7 @@ async function processUser(user) {
 Comment Lens can be configured through VS Code settings. Open Settings (`Ctrl+,` or `Cmd+,`) and search for "Comment Lens":
 
 #### Complete Configuration Example
+
 ```json
 {
   "commentLens.highlightMode": "onHover",
@@ -244,6 +272,7 @@ Comment Lens can be configured through VS Code settings. Open Settings (`Ctrl+,`
 ### Configuration Options
 
 #### Global Settings
+
 - **`commentLens.highlightMode`**: `"always"` | `"onHover"` - When to show comment highlighting
   - `"always"`: Comments are highlighted continuously as you type and view the file
   - `"onHover"`: Comments are only highlighted when you hover your mouse over them
@@ -251,6 +280,7 @@ Comment Lens can be configured through VS Code settings. Open Settings (`Ctrl+,`
 - **`commentLens.commentBoxTextPosition`**: `"left"` | `"center"` | `"right"` - Default text position for comment boxes
 
 #### Comment Patterns (`commentLens.patterns`)
+
 - **`id`**: `string` - Unique identifier for the pattern
 - **`name`**: `string` - Display name for the pattern
 - **`pattern`**: `string` - String pattern to match comments
@@ -262,6 +292,7 @@ Comment Lens can be configured through VS Code settings. Open Settings (`Ctrl+,`
 - **`overrideDefault`**: `boolean` - Whether this pattern overrides a default one
 
 #### Dividers (`commentLens.dividers`)
+
 - **`id`**: `string` - Unique identifier for the divider style
 - **`name`**: `string` - Display name for the divider style
 - **`pattern`**: `string` - Character pattern for the divider
@@ -271,6 +302,7 @@ Comment Lens can be configured through VS Code settings. Open Settings (`Ctrl+,`
 - **`textPadding`**: `number` - Number of spaces around the text
 
 #### Comment Boxes (`commentLens.commentBoxes`)
+
 - **`id`**: `string` - Unique identifier for the comment box style
 - **`name`**: `string` - Display name for the comment box style
 - **`topLeft`**: `string` - Character for top-left corner
@@ -281,24 +313,22 @@ Comment Lens can be configured through VS Code settings. Open Settings (`Ctrl+,`
 - **`vertical`**: `string` - Character for vertical lines
 - **`enabled`**: `boolean` - Whether this comment box style is active
 
-
-
 ## 🎯 Comment Patterns
 
 ### Default Patterns
 
 Comment Lens comes with 8 built-in patterns:
 
-| Pattern | Description | Color |
-|---------|-------------|-------|
-| `@warn` | Warnings and alerts | 🔴 Red |
-| `@question` | Questions and doubts | 🔵 Blue |
-| `@todo` | Tasks to be completed | 🟡 Yellow |
-| `@fixme` | Code that needs fixing | 🟠 Orange |
-| `@note` | Important information | 🟢 Green |
+| Pattern      | Description                | Color     |
+| ------------ | -------------------------- | --------- |
+| `@warn`      | Warnings and alerts        | 🔴 Red    |
+| `@question`  | Questions and doubts       | 🔵 Blue   |
+| `@todo`      | Tasks to be completed      | 🟡 Yellow |
+| `@fixme`     | Code that needs fixing     | 🟠 Orange |
+| `@note`      | Important information      | 🟢 Green  |
 | `@highlight` | Code sections to highlight | 🟡 Yellow |
-| `@test` | Test-related comments | 🟦 Teal |
-| `@status` | Status indicators | 🔵 Blue |
+| `@test`      | Test-related comments      | 🟦 Teal   |
+| `@status`    | Status indicators          | 🔵 Blue   |
 
 ### Custom Patterns
 
@@ -319,7 +349,7 @@ Create your own patterns with string matching:
 
 ```javascript
 // @todo: Implement user authentication system
-// @bug: Fix memory leak in event listeners  
+// @bug: Fix memory leak in event listeners
 // @note: This function handles complex data processing
 // @warn: Performance may be slow with large datasets
 // @highlight: 15-20 This section contains critical business logic
@@ -332,11 +362,11 @@ Create your own patterns with string matching:
 Comment Lens can generate beautiful Markdown documentation from your code comments. Use the Command Palette to run "Generate Documentation from File" and convert your comments into organized documentation.
 
 **Features:**
+
 - Convert JSDoc, JavaDoc, XML docs, and more to Markdown
 - Automatic table of contents generation
 - Group by type (functions, classes, methods)
 - Extract and format code examples
-
 
 ## 🎨 Dividers and Comment Boxes
 
@@ -363,15 +393,14 @@ Create visually appealing comment containers:
 
 Available styles: Simple, Double, Rounded, Custom Unicode
 
-
 ## 🛠️ Commands
 
 ### Available Commands
 
-| Command | Description | Shortcut |
-|---------|-------------|----------|
-| `Comment Lens: Insert Divider` | Insert a decorative divider | `Ctrl+Shift+D` |
-| `Comment Lens: Insert Comment Box` | Insert a comment box | `Ctrl+Shift+B` |
+| Command                                          | Description                                       | Shortcut       |
+| ------------------------------------------------ | ------------------------------------------------- | -------------- |
+| `Comment Lens: Insert Divider`                   | Insert a decorative divider                       | `Ctrl+Shift+D` |
+| `Comment Lens: Insert Comment Box`               | Insert a comment box                              | `Ctrl+Shift+B` |
 | `Comment Lens: Generate Documentation from File` | Generate Markdown documentation from current file | `Ctrl+Shift+M` |
 
 ### Command Palette
@@ -397,9 +426,6 @@ Comment Lens provides intelligent auto-completion for comment tags:
 
 Hover over `@highlight` comments to see detailed information:
 
-
-
-
 ## 🤝 Contributing
 
 We welcome contributions! Here's how you can help:
@@ -407,17 +433,20 @@ We welcome contributions! Here's how you can help:
 ### Development Setup
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/spacelaxy/comment-lens.git
    cd comment-lens
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Build the extension**
+
    ```bash
    npm run compile
    ```
@@ -453,9 +482,11 @@ We welcome contributions! Here's how you can help:
 - **Testing**: Add more comprehensive tests
 - **Performance**: Optimize parsing and rendering
 - **UI/UX**: Enhance the user experience
+
 ---
 
 [![Star History Chart](https://api.star-history.com/svg?repos=spacelaxy/comment-lens&type=Date)](https://star-history.com/#spacelaxy/comment-lens&Date)
 
 ---
+
 **Copyright © 2025 Spacelaxy LLC. All rights reserved.**

@@ -8,6 +8,7 @@ export interface CommentPattern {
   showTextColor: boolean;
   showBackgroundColor: boolean;
   overrideDefault: boolean;
+  highlightGroup?: number;
 }
 
 export interface CommentHighlightConfig {

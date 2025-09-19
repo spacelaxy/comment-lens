@@ -88,9 +88,7 @@ export class JavaScriptParser extends AbstractParser {
         const methodMatch = line.match(ParserPatterns.codeExtraction.javascript.method);
         if(methodMatch && methodMatch[1]) {
           const name = methodMatch[1];
-          if(!ParserPatterns.codeExtraction.javascript.keywords.includes(name)) {
-            return name;
-          }
+          if(!ParserPatterns.codeExtraction.javascript.keywords.includes(name)) return name;
         }
         
         const classMatch = line.match(ParserPatterns.codeExtraction.javascript.class);

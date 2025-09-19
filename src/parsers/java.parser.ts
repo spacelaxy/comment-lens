@@ -88,17 +88,13 @@ export class JavaParser extends AbstractParser {
         const methodMatch = line.match(ParserPatterns.codeExtraction.java.method);
         if(methodMatch && methodMatch[1]) {
           const name = methodMatch[1];
-          if(!ParserPatterns.codeExtraction.java.keywords.includes(name)) {
-            return name;
-          }
+          if(!ParserPatterns.codeExtraction.java.keywords.includes(name)) return name;
         }
         
         const constructorMatch = line.match(ParserPatterns.codeExtraction.java.constructor);
         if(constructorMatch && constructorMatch[1]) {
           const name = constructorMatch[1];
-          if(name.match(ParserPatterns.codeExtraction.java.capitalized) && !ParserPatterns.codeExtraction.java.keywords.includes(name)) {
-            return 'constructor';
-          }
+          if(name.match(ParserPatterns.codeExtraction.java.capitalized) && !ParserPatterns.codeExtraction.java.keywords.includes(name)) return 'constructor';
         }
       }
     } catch(error) {

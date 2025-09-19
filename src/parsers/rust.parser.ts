@@ -23,9 +23,7 @@ export class RustParser extends AbstractParser {
       const line = lines[currentLine] || '';
       const trimmedLine = line.trim();
       
-      if(!ParserPatterns.commentDetection.rust.test(trimmedLine)) {
-        break;
-      }
+      if(!ParserPatterns.commentDetection.rust.test(trimmedLine)) break;
       
       content += line + '\n';
       currentLine++;
@@ -144,9 +142,7 @@ export class RustParser extends AbstractParser {
         const enumMatch = line.match(ParserPatterns.codeExtraction.rust.enum);
         if(enumMatch && enumMatch[2]) return enumMatch[2];
         
-        if(ParserPatterns.codeExtraction.rust.enumVariant.test(line) && !ParserPatterns.codeExtraction.rust.structEnumTrait.test(line)) {
-          continue;
-        }
+        if(ParserPatterns.codeExtraction.rust.enumVariant.test(line) && !ParserPatterns.codeExtraction.rust.structEnumTrait.test(line)) continue;
         
         const traitMatch = line.match(ParserPatterns.codeExtraction.rust.trait);
         if(traitMatch && traitMatch[2]) return traitMatch[2];
@@ -267,9 +263,7 @@ export class RustParser extends AbstractParser {
   }
   
   private processMarkdownLine(line: string, docComment: DocComment): void {
-    if(line === '```' || line === '') {
-      return;
-    }
+    if(line === '```' || line === '') return;
     
     let processedLine = line.replace(ParserPatterns.contentCleaning.rust.markdownLink, '$1 ($2)');
     
